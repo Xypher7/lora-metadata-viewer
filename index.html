@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>LoRA Metadata Viewer</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+	  background-color: 
+    }
+    #dropArea {
+      width: 100%;
+      border: 2px dashed #ccc;
+      text-align: center;
+      padding: 50px 0;
+      margin-bottom: 20px;
+	  background-color: #f0f0f0;
+    }
+    #dropArea.hover {
+      background-color: #e0e0e0;
+    }
+	.collapsible {
+      cursor: pointer;
+      user-select: none;
+      margin-bottom: 5px;
+    }
+	.collapsible:hover { 
+	  background-color: #f0f0f0;
+	}
+    .collapsible::before {
+      content: "+ ";
+      display: inline-block;
+      width: 1em;
+    }
+    .active::before {
+      content: "- ";
+    }
+    .content {
+      display: none;
+      padding: 5px;
+	  position: relative;
+    }
+	.content button {
+	  position: absolute;
+	  top: 1.5em;
+	  right: 0.5em;
+	  background-color: transparent;
+      border: none;
+      color: grey;
+	}
+	.content button:hover {
+	  background-color: grey;
+	  color: white;
+	}
+	i {
+	  font-size:0.7em;
+	}
+  </style>
+</head>
+<body>
+  <div class="header"><h2>LoRA Metadata Viewer</h2></div> 
+  <div id="dropArea" class="drop-area">
+    <p>Drag and drop your safetensors file here </br>or click to select a safetensors file</p>
+  </div>
+  
+  <h3 class="collapsible">Summary Field Selection</h3>
+  <div class="content">
+    <div>Specify the name of the fields to be displayed in the summary section, separated by commas:</div>
+    <textarea id="summaryFields" rows="5" cols="100">ss_output_name,ss_sd_model_name,ss_total_batch_size,ss_resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_epoch,ss_flip_aug,sshs_model_hash,ss_network_module</textarea>
+	<div><i>Note: If you wish to modify the default list shown here, open this file in a text editor and modify the values within the 'textarea' tag in line 69 (nice).</i></div>
+  </div>
+
+  <h3 class="collapsible expanded">Summary</h3>
+  <div class="content">
+    <button onclick="copyToClipboard('summary')">Copy to clipboard</button>
+    <pre id="summary"><code class="json">{}</code></pre>
+  </div>
+  
+  <h3 class="collapsible">CivitAI Info</h3>
+  <div class="content">
+	
+    <div><b>URL:</b><a id="modelUrl" target='_blank' href="#"></a></div>
+	<div><b>Resource Info:</b><a id="resourceUrl" target='_blank' href="#"></a></div>
+	<div><div><b>Preview:</b></div><img id='previewImage' alt='preview' src=''/></div>
+	<div><i>Note: This section requires an internet connection in order to work. Details will be omited if either the 
+	resource is not fount in CivitAI or there is no internet connectivity.</i></div>
+  </div>
+
+  <h3 class="collapsible expanded">Metadata</h3>
+  <div class="content">
+	<button onclick="copyToClipboard('metadataDisplay')">Copy to clipboard</button>
+    <pre id="metadataDisplay"><code class="json">{}</code></pre>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <script>
+    const dropArea = document.getElementById('dropArea');
+    const metadataDisplay = document.getElementById('metadataDisplay');
+    const summary = document.getElementById('summary');
+    const summaryFieldsInput = document.getElementById('summaryFields');
+	const modelUrl = document.getElementById('modelUrl');
+	const resourceUrl = document.getElementById('resourceUrl');
+	const previewImage = document.getElementById('previewImage');
+
+    //summaryFieldsInput.value = summaryFieldList.toString();
+	
+	try { 		
+		hljs.highlightElement(summary.firstChild);
+		hljs.highlightElement(metadataDisplay.firstChild); 
+	} catch (error) {}
+
+    // Prevent default drag behaviors
+    ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false);
+    });
+
+    // Highlight drop area when a file is dragged over it
+    ['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false);
+    });
+
+    // Remove highlighting when a file is dragged away from the drop area
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false);
+    });
+
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false);
+	
+	// Add hover effect using JavaScript
+	dropArea.addEventListener('mouseover', () => {
+	  dropArea.classList.add('hover');
+	});
+
+	dropArea.addEventListener('mouseout', () => {
+	  dropArea.classList.remove('hover');
+	});
+
+    function preventDefaults(event) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+
+    function highlight() {
+      dropArea.classList.add('hover');
+    }
+
+    function unhighlight() {
+      dropArea.classList.remove('hover');
+    }
+
+    function handleDrop(event) {
+      const dt = event.dataTransfer;
+      const file = dt.files[0];
+
+      handleFile(file);
+      unhighlight();
+    }
+
+    function handleFile(file) {
+      if (file && /\.(safetensors)$/i.test(file.name)) { // Check for file extension (.safetensors)
+        const reader = new FileReader();
+
+        reader.onload = function(event) {
+          const content = event.target.result;
+          const firstLine = content.split(/\r\n|\r|\n/)[0];
+          const jsonStartIndex = firstLine.indexOf('{');
+          let jsonEndIndex = firstLine.lastIndexOf('}');
+          const attempts = 10;
+
+          if (jsonStartIndex !== -1 && jsonEndIndex !== -1) {
+            try {
+              let jsonData = firstLine.substring(jsonStartIndex, jsonEndIndex + 1);
+              let metadata = "";
+
+              for (let i = 0; i < attempts; i++) {
+                try {
+                  metadata = JSON.parse(jsonData);
+                  break;
+                } catch (error) {
+                  jsonEndIndex = jsonData.substring(0, jsonEndIndex).lastIndexOf('}');
+                  jsonData = jsonData.substring(0, jsonEndIndex + 1);
+                  if (i == attempts - 1) throw error;
+                }
+              }
+
+              const formattedMetadata = metadata["__metadata__"];
+              const subProperties = {};
+
+              for (const key in formattedMetadata) {
+                if (typeof formattedMetadata[key] === 'string') {
+                  try {
+                    subProperties[key] = JSON.parse(formattedMetadata[key]);
+                  } catch (error) {
+                    subProperties[key] = formattedMetadata[key];
+                  }
+                } else {
+                  subProperties[key] = formattedMetadata[key];
+                }
+              }
+
+              metadataDisplay.innerHTML = '<code class="json">' + JSON.stringify(subProperties, null, 2) + '</code>';
+              try { hljs.highlightElement(metadataDisplay.firstChild); } catch (error) {}
+			  
+              updateSummary(subProperties);
+
+            } catch (error) {
+              metadataDisplay.textContent = 'Error parsing metadata.';
+              console.error(error);
+            }
+          } else {
+            metadataDisplay.textContent = 'No valid JSON data found in the first line.';
+          }
+        };
+
+        reader.readAsText(file);
+      } else {
+        metadataDisplay.textContent = 'Please drop a valid .safetensors file.';
+      }
+    }
+
+    function updateSummary(subProperties) {
+      const summaryFieldList = summaryFieldsInput.value.split(',');
+      summary.innerHTML = '';
+      let summaryJson = {};
+      summaryFieldList.forEach((item, index) => {
+        summaryJson[item] = subProperties[item];
+      });
+
+      summary.innerHTML = '<code class="json">' + JSON.stringify(summaryJson, null, 2) + '</code>';
+      try { hljs.highlightElement(summary.firstChild); } catch (error) {}
+	  
+	  setCivitAiUrl(subProperties['sshs_model_hash']);
+    }
+
+    // File input handling
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.style.display = 'none';
+    document.body.appendChild(fileInput);
+
+    dropArea.addEventListener('click', () => {
+      fileInput.click();
+    });
+
+    fileInput.addEventListener('change', () => {
+      const file = fileInput.files[0];
+      handleFile(file);
+    });
+	
+	function copyToClipboard(elementId) {
+	  const textToCopy = document.getElementById(elementId);
+	  
+	  // Create a temporary textarea to copy the text
+	  const textarea = document.createElement('textarea');
+	  textarea.value = textToCopy.textContent;
+	  document.body.appendChild(textarea);
+	  
+	  // Select and copy the text
+	  textarea.select();
+	  document.execCommand('copy');
+	  
+	  // Clean up - remove the temporary textarea
+	  document.body.removeChild(textarea);
+	  
+	  // Optionally, provide some feedback to the user
+	  alert('Text copied to clipboard!');
+	}
+
+	function setCivitAiUrl(hash){
+	  const apiUrl = 'https://civitai.com/api/v1/model-versions/by-hash/' + hash;
+	  const baseUrl = 'https://civitai.com/models/';
+	  
+	  modelUrl.href = '#';
+	  modelUrl.innerHTML = '';
+	  resourceUrl.href = '#';
+	  resourceUrl.innerHTML = '';
+	  previewImage.src = '';
+	  
+	  if(hash){
+	    fetch(apiUrl)
+		  .then(response => {
+			if (!response.ok) {
+			  throw new Error('Network response was not ok');
+			}
+			return response.json();
+		  })
+		  .then(data => {
+			modelUrl.href = baseUrl + data.modelId;
+			modelUrl.innerHTML = modelUrl.href;
+			resourceUrl.href = apiUrl;
+			resourceUrl.innerHTML = apiUrl;
+			previewImage.src = data.images[0].url;
+		  })
+		  .catch(error => {
+			console.error('There was a problem fetching the data:', error);
+		  });
+	  }
+	}
+
+    //Collapsible panel logic
+    const collapsibles = document.querySelectorAll('.collapsible');
+
+    collapsibles.forEach((collapsible,i) => {
+      collapsible.addEventListener('click', function() {
+        this.classList.toggle('active');
+        const content = this.nextElementSibling;
+        if (content.style.display === 'block') {
+          content.style.display = 'none';
+        } else {
+          content.style.display = 'block';
+        }
+      });
+	  
+	  if(collapsible.classList.contains('expanded')) collapsible.click();
+    });
+  </script>
+</body>
+</html>
