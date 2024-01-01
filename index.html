@@ -54,6 +54,10 @@
         <li><b>Resource Info:</b><a id="resourceUrl" target='_blank' href="#"></a></li>
         <li><div><b>Preview:</b></div><img id='previewImage' src='' /></li>
       </ul>
+      <div>
+        <button onclick="copyToClipboard('civitaiDisplay')">Copy to clipboard</button>
+        <pre id="civitaiDisplay"><code class="json">{}</code></pre>
+      </div>
       <div class="note">Note: This section requires an internet connection in order to work. Details will be omited if either the
           resource is not fount in CivitAI or there is no internet connectivity.</div>
     </div>
@@ -73,6 +77,7 @@
     const summaryFieldsInput = document.getElementById('summaryFields');
     const modelUrl = document.getElementById('modelUrl');
     const resourceUrl = document.getElementById('resourceUrl');
+    const civitaiDisplay = document.getElementById('civitaiDisplay');
     const previewImage = document.getElementById('previewImage');
 
     //summaryFieldsInput.value = summaryFieldList.toString();
@@ -80,6 +85,7 @@
     try {
       hljs.highlightElement(summary.firstChild);
       hljs.highlightElement(metadataDisplay.firstChild);
+      hljs.highlightElement(civitaiDisplay.firstChild);
     } catch (error) { }
 
     // Prevent default drag behaviors
@@ -250,6 +256,7 @@
       resourceUrl.href = '#';
       resourceUrl.innerHTML = '';
       previewImage.src = '';
+      civitaiDisplay.innerHTML = '';
 
       if (hash) {
         fetch(apiUrl)
@@ -265,6 +272,8 @@
             resourceUrl.href = apiUrl;
             resourceUrl.innerHTML = apiUrl;
             previewImage.src = data.images[0].url;
+            civitaiDisplay.innerHTML = '<code class="json">' + JSON.stringify(data, null, 2) + '</code>';
+            try { hljs.highlightElement(civitaiDisplay.firstChild); } catch (error) { }
           })
           .catch(error => {
             console.error('There was a problem fetching the data:', error);
