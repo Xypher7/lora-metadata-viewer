@@ -17,6 +17,7 @@
     .content button:hover { background-color: grey; color: white; }
     .note { font-size: 0.7em; font-style: italic; }
     .header { margin:20px; font-size: 2em; font-weight: bold; }
+    .footer { margin:10px; text-align: center; font-size: 0.9em; }
     a { color: #4dabf7; }
     textarea { color: #C1C2C5; background-color: #2C2E33; }
     hr { border-color: #373A40 }
@@ -62,11 +63,24 @@
           resource is not fount in CivitAI or there is no internet connectivity.</div>
     </div>
 
+    <h3 class="collapsible">Tag Frequency</h3>
+    <div class="content">
+      <button onclick="copyToClipboard('keywordDetails')">Copy to clipboard</button>
+      <pre id="keywordDetails"><code class="json">{}</code></pre>
+    </div>
+
     <h3 class="collapsible expanded">Metadata</h3>
     <div class="content">
       <button onclick="copyToClipboard('metadataDisplay')">Copy to clipboard</button>
       <pre id="metadataDisplay"><code class="json">{}</code></pre>
     </div>
+  </div>
+
+  <hr/>
+  <div class="footer">
+    LoRA Metadata Viewer v1.1 | 
+    <a href="https://github.com/Xypher7/lora-metadata-viewer" target='_blank'>GitHub</a> |
+    <a href="https://civitai.com/models/249721/lora-metadata-viewer" target='_blank'>CivitAI</a>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
@@ -79,10 +93,12 @@
     const resourceUrl = document.getElementById('resourceUrl');
     const civitaiDisplay = document.getElementById('civitaiDisplay');
     const previewImage = document.getElementById('previewImage');
+    const keywordDetails = document.getElementById('keywordDetails');
 
     try {
       hljs.highlightElement(summary.firstChild);
       hljs.highlightElement(metadataDisplay.firstChild);
+      hljs.highlightElement(keywordDetails.firstChild);
       hljs.highlightElement(civitaiDisplay.firstChild);
     } catch (error) { }
 
@@ -181,6 +197,8 @@
               try { hljs.highlightElement(metadataDisplay.firstChild); } catch (error) { }
 
               updateSummary(subProperties);
+              try { setKeywords(subProperties); } catch (error) { console.error(error); }
+              setCivitAiUrl(subProperties['sshs_model_hash']);
 
             } catch (error) {
               metadataDisplay.textContent = 'Error parsing metadata.';
@@ -207,8 +225,6 @@
 
       summary.innerHTML = '<code class="json">' + JSON.stringify(summaryJson, null, 2) + '</code>';
       try { hljs.highlightElement(summary.firstChild); } catch (error) { }
-
-      setCivitAiUrl(subProperties['sshs_model_hash']);
     }
 
     // File input handling
@@ -277,6 +293,40 @@
             console.error('There was a problem fetching the data:', error);
           });
       }
+    }
+
+    function setKeywords(data){
+      keywordDetails.innerHTML = '';
+
+      // Extracting and flattening the items from both objects
+      const items = Object.values(data['ss_tag_frequency']).flatMap(obj => Object.entries(obj));
+
+      // Create an object to store and sum the values
+      const groupedItems = {};
+      items.forEach(([key, value]) => {
+        const [group, tag] = key.split('_');
+        if (!groupedItems[group]) groupedItems[group] = {};
+        if (!groupedItems[group][tag]) groupedItems[group][tag] = 0;
+        groupedItems[group][tag] += value;
+      });
+
+      // Convert the summed items to direct tag-value pairs
+      const finalResult = {};
+      for (const group in groupedItems) {
+        let total = 0;
+        for (const tag in groupedItems[group]) {
+          total += groupedItems[group][tag];
+        }
+        finalResult[group] = total;
+      }
+
+      // Sort the final result based on the numeric values
+      const sortedResult = Object.fromEntries(
+        Object.entries(finalResult).sort(([, a], [, b]) => b - a)
+      );
+
+      keywordDetails.innerHTML = '<code class="json">' + JSON.stringify(sortedResult, null, 2) + '</code>';
+      try { hljs.highlightElement(keywordDetails.firstChild); } catch (error) { }
     }
 
     //Collapsible panel logic
