@@ -13,16 +13,19 @@
     .collapsible::before { content: "▼ "; display: inline-block; width: 1em; }
     .active::before { content: "▲ "; }
     .content { display: none; padding: 5px; position: relative; }
-    .content button { position: absolute; top: 1.5em; right: 0.5em; background-color: transparent; border: none; color: grey; }
-    .content button:hover { background-color: grey; color: white; }
+    .copy-btn { position: absolute; top: 1.5em; right: 0.5em; background-color: transparent; border: none; color: grey; }
+    .copy-btn:hover { background-color: grey; color: white; }
     .note { font-size: 0.7em; font-style: italic; }
     .header { margin:20px; font-size: 2em; font-weight: bold; }
     .footer { margin:10px; text-align: center; font-size: 0.9em; }
-    #notificationPanel { text-align: center; color: #dc3545; }
+    #notificationPanel, #editorNotificationPanel { text-align: center; color: #dc3545; }
     a { color: #4dabf7; }
     textarea { width:100%; color: #C1C2C5; background-color: #2C2E33; }
     hr { border-color: #373A40 }
     input[type=checkbox] { margin: 10px;}
+    .editor-header { text-align: center; margin: 10px; }
+    .editor-header button { font-size: 1.2em; color: #C1C2C5; background-color: #2C2E33; border: none; border-radius: 10px; padding:8px; }
+    .editor-header button:hover { background-color: #373A40; }
   </style>
 </head>
 <body>
@@ -44,16 +47,18 @@
       <div><input type="checkbox" id="enableCivitAiInfo" data-display="civitAiInfoPanel" checked><label for="enableCivitAiInfo">Display CivitAI Info</label></div>
       <div><input type="checkbox" id="enableTagFrequency" data-display="tagFrequencyPanel" checked><label for="enableTagFrequency">Display Tag Frequency</label></div>
       <div><input type="checkbox" id="enableMetadata" data-display="metadataPanel" checked><label for="enableMetadata">Display Metadata</label></div>
+      <div><input type="checkbox" id="enableDateFormat" checked><label for="enableDateFormat">Display date fields in human readable format</label></div>
+      <div><input type="checkbox" id="enableMetadataEditor" data-display="metadataEditorPanel" checked><label for="enableMetadataEditor">Display Metadata Editor</label></div>
       <hr/>
       <div><b>Summary Field Selection:</b> Specify the name of the fields to be displayed in the summary section, separated by commas:</div>
-      <textarea id="summaryFields" rows="8" cols="100">ss_output_name,ss_sd_model_name,ss_network_module,ss_total_batch_size,ss_resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_epoch,ss_num_epochs,ss_steps,ss_max_train_steps,ss_learning_rate,ss_text_encoder_lr,ss_unet_lr,ss_shuffle_caption,ss_keep_tokens,ss_flip_aug,ss_noise_offset,ss_adaptive_noise_scale,ss_min_snr_gamma,sshs_model_hash</textarea>
+      <textarea id="summaryFields" rows="8" cols="100">ss_output_name,ss_sd_model_name,ss_network_module,ss_total_batch_size,ss_resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_epoch,ss_num_epochs,ss_steps,ss_max_train_steps,ss_learning_rate,ss_text_encoder_lr,ss_unet_lr,ss_shuffle_caption,ss_keep_tokens,ss_flip_aug,ss_noise_offset,ss_adaptive_noise_scale,ss_min_snr_gamma,ss_training_started_at,ss_training_finished_at,sshs_model_hash</textarea>
       <div class="note">Note: If you wish to modify the default list shown here, open this file in a text editor, search for "summaryFields", and modify the values contained within the 'textarea' tag.</div>
     </div>
 
     <div id="summaryPanel">
       <h3 class="collapsible expanded">Summary</h3>
       <div class="content">
-        <button onclick="copyToClipboard('summary')">Copy to clipboard</button>
+        <button class="copy-btn" onclick="copyToClipboard('summary')">Copy to clipboard</button>
         <pre id="summary"><code class="json">{}</code></pre>
       </div>
     </div>
@@ -75,7 +80,7 @@
     <div id="tagFrequencyPanel">
       <h3 class="collapsible">Tag Frequency</h3>
       <div class="content">
-        <button onclick="copyToClipboard('keywordDetails')">Copy to clipboard</button>
+        <button class="copy-btn" onclick="copyToClipboard('keywordDetails')">Copy to clipboard</button>
         <pre id="keywordDetails"><code class="json">{}</code></pre>
       </div>
     </div>
@@ -83,15 +88,27 @@
     <div id="metadataPanel">
       <h3 class="collapsible expanded">Metadata</h3>
       <div class="content">
-        <button onclick="copyToClipboard('metadataDisplay')">Copy to clipboard</button>
+        <button class="copy-btn" onclick="copyToClipboard('metadataDisplay')">Copy to clipboard</button>
         <pre id="metadataDisplay"><code class="json">{}</code></pre>
+      </div>
+    </div>
+
+    <div id="metadataEditorPanel">
+      <h3 class="collapsible">Metadata Editor</h3>
+      <div class="content">
+        <div class="editor-header">
+          <button onclick="downloadFile()">Save & Download</button>
+          <button onclick="downloadFile(true)">Purge & Download</button>
+        </div>
+        <div id="editorNotificationPanel"></div>
+        <textarea id="metadataEditor" rows="100" cols="100"></textarea>
       </div>
     </div>
   </div>
 
   <hr/>
   <div class="footer">
-    LoRA Metadata Viewer v1.3 | 
+    LoRA Metadata Viewer v1.4 | 
     <a href="https://github.com/Xypher7/lora-metadata-viewer" target='_blank'>GitHub</a> |
     <a href="https://civitai.com/models/249721/lora-metadata-viewer" target='_blank'>CivitAI</a>
   </div>
@@ -100,6 +117,7 @@
   <script>
     const dropArea = document.getElementById('dropArea');
     const metadataDisplay = document.getElementById('metadataDisplay');
+    const metadataEditor = document.getElementById('metadataEditor');
     const summary = document.getElementById('summary');
     const summaryFieldsInput = document.getElementById('summaryFields');
     const modelUrl = document.getElementById('modelUrl');
@@ -108,11 +126,16 @@
     const previewImage = document.getElementById('previewImage');
     const keywordDetails = document.getElementById('keywordDetails');
     const notificationPanel = document.getElementById('notificationPanel');
+    const editorNotificationPanel = document.getElementById('editorNotificationPanel');
 
     const enableSummary = document.getElementById('enableSummary');
     const enableCivitAiInfo = document.getElementById('enableCivitAiInfo');
     const enableTagFrequency = document.getElementById('enableTagFrequency');
     const enableMetadata = document.getElementById('enableMetadata');
+    const enableMetadataEditor = document.getElementById('enableMetadataEditor');
+    const enableDateFormat = document.getElementById('enableDateFormat');
+
+    let safetensorsFile;
 
     try {
       hljs.highlightElement(summary.firstChild);
@@ -206,76 +229,72 @@
     function handleDrop(event) {
       const dt = event.dataTransfer;
       const file = dt.files[0];
-
       handleFile(file);
       unhighlight();
     }
 
     function handleFile(file) {
       clearAll();
-      if (file && /\.(safetensors)$/i.test(file.name)) { // Check for file extension (.safetensors)
-        const reader = new FileReader();
-
-        reader.onload = function (event) {
-          const content = event.target.result;
-          const firstLine = content.split(/\r\n|\r|\n/)[0];
-          const jsonStartIndex = firstLine.indexOf('{');
-          let jsonEndIndex = firstLine.lastIndexOf('}');
-          const attempts = 10;
-
-          if (jsonStartIndex !== -1 && jsonEndIndex !== -1) {
-            try {
-              let jsonData = firstLine.substring(jsonStartIndex, jsonEndIndex + 1);
-              let metadata = "";
-
-              for (let i = 0; i < attempts; i++) {
-                try {
-                  metadata = JSON.parse(jsonData);
-                  break;
-                } catch (error) {
-                  jsonEndIndex = jsonData.substring(0, jsonEndIndex).lastIndexOf('}');
-                  jsonData = jsonData.substring(0, jsonEndIndex + 1);
-                  if (i == attempts - 1) throw error;
-                }
-              }
-
-              const formattedMetadata = metadata["__metadata__"];
-              const subProperties = {};
-
-              for (const key in formattedMetadata) {
-                if (typeof formattedMetadata[key] === 'string') {
-                  try {
-                    subProperties[key] = JSON.parse(formattedMetadata[key]);
-                  } catch (error) {
-                    subProperties[key] = formattedMetadata[key];
-                  }
-                } else {
-                  subProperties[key] = formattedMetadata[key];
-                }
-              }
-            
-              updateMetadata(subProperties);
-              updateSummary(subProperties);
-              updateTagFrequency(subProperties);
-              updateCivitAiInfo(subProperties['sshs_model_hash'], file);
-
-            } catch (error) {
-              notificationPanel.innerHTML = 'Error parsing metadata.';
-              console.error(error);
-            }
-          } else {
-            notificationPanel.innerHTML = 'No valid JSON data found in the first line.';
-          }
-        };
-
-        reader.readAsText(file);
-      } else {
+      safetensorsFile = file;
+      if(!file.name.endsWith('.safetensors')) {
         notificationPanel.innerHTML = 'Please drop a valid .safetensors file.';
+        return;
       }
+
+      const reader = new FileReader();
+      reader.onload = function (event) {
+        try {
+          const dataView = new DataView(reader.result);
+          const metadataSize = dataView.getUint32(0, true);
+          const metadataBytes = new Uint8Array(reader.result.slice(8, 8 + metadataSize));
+          const textDecoder = new TextDecoder("utf-8");
+          const headerStr = textDecoder.decode(metadataBytes);
+          const header = JSON.parse(headerStr);
+          const formattedMetadata = header['__metadata__'];        
+
+          if(!formattedMetadata) {
+            notificationPanel.innerHTML = 'No metadata found';
+            return;
+          }
+          const metadata = {};
+          for (const key in formattedMetadata) {
+            if (typeof formattedMetadata[key] === 'string') {
+              try {
+                metadata[key] = JSON.parse(formattedMetadata[key]);
+              } catch (error) {
+                metadata[key] = formattedMetadata[key];
+              }
+            } else {
+              metadata[key] = formattedMetadata[key];
+            }
+          }
+
+          updateMetadataEditor(metadata);
+
+          formatDate(metadata, 'ss_training_started_at');
+          formatDate(metadata, 'ss_training_finished_at');
+
+          updateMetadata(metadata);
+          updateSummary(metadata);
+          updateTagFrequency(metadata);
+          updateCivitAiInfo(metadata['sshs_model_hash'], file);
+        } catch (error) {
+          notificationPanel.innerHTML = 'Error parsing metadata.';
+          console.error(error);
+        }
+      };
+
+      reader.readAsArrayBuffer(file);
+    }
+
+    function formatDate(metadata, prop){
+      if(enableDateFormat.checked && metadata[prop])  
+        metadata[prop] = new Date(metadata[prop] * 1000);     
     }
 
     function clearAll(){
       notificationPanel.innerHTML = '';
+      editorNotificationPanel.innerHTML = '';
       summary.innerHTML = '';
       modelUrl.href = '#';
       modelUrl.innerHTML = '';
@@ -287,19 +306,25 @@
       metadataDisplay.innerHTML = '';
     }
 
-    function updateMetadata(subProperties) {
+    function updateMetadata(metadata) {
       if(enableMetadata.checked) {
-        metadataDisplay.innerHTML = '<code class="json">' + JSON.stringify(subProperties, null, 2) + '</code>';
+        metadataDisplay.innerHTML = '<code class="json">' + JSON.stringify(metadata, null, 2) + '</code>';
         try { hljs.highlightElement(metadataDisplay.firstChild); } catch (error) { }
       }
     }
 
-    function updateSummary(subProperties) {     
+    function updateMetadataEditor(metadata) {
+      if(enableMetadataEditor.checked) {
+        metadataEditor.value = JSON.stringify(metadata, null, 2);
+      }
+    }
+
+    function updateSummary(metadata) {     
       if(enableSummary.checked){
         const summaryFieldList = summaryFieldsInput.value.split(',').map(value => value.trim());;
         let summaryJson = {};
         summaryFieldList.forEach((item, index) => {
-          summaryJson[item] = subProperties[item];
+          summaryJson[item] = metadata[item];
         });
 
         summary.innerHTML = '<code class="json">' + JSON.stringify(summaryJson, null, 2) + '</code>';
@@ -309,19 +334,12 @@
 
     function copyToClipboard(elementId) {
       const textToCopy = document.getElementById(elementId);
-
-      // Create a temporary textarea to copy the text
       const textarea = document.createElement('textarea');
       textarea.value = textToCopy.textContent;
       document.body.appendChild(textarea);
-
-      // Select and copy the text
       textarea.select();
       document.execCommand('copy');
-
-      // Clean up - remove the temporary textarea
       document.body.removeChild(textarea);
-      
       alert('Text copied to clipboard!');
     }
 
@@ -410,7 +428,6 @@
       } catch (error) { console.error(error); }
     }
 
-    // Calculate file hash
     function calculateFileHash(file) {
       return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -433,6 +450,58 @@
         reader.readAsArrayBuffer(file);
       });
     }
+
+    function downloadFile(purge) {
+      editorNotificationPanel.innerHTML = '';
+      let newMetadata
+      try {
+        newMetadata = metadataEditor.value && !purge ? JSON.parse(metadataEditor.value) : {};
+      } catch (e) {
+        editorNotificationPanel.innerHTML = "Error parsing edited metadata. Ensure the metadata is in valid JSON format and try again.";
+        return;
+      }
+
+      try{
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const dataView = new DataView(reader.result);
+          const metadataSize = dataView.getUint32(0, true);
+          const metadataBytes = new Uint8Array(reader.result.slice(8, 8 + metadataSize));
+          const textDecoder = new TextDecoder("utf-8");
+          const headerStr = textDecoder.decode(metadataBytes);
+          let header = JSON.parse(headerStr);
+          header['__metadata__'] = newMetadata;
+
+          const newHeaderStr = JSON.stringify(header);
+          const textEncoder = new TextEncoder();
+          const newHeaderBytes = textEncoder.encode(newHeaderStr);
+
+          const newHeaderSize = newHeaderBytes.length;
+          const newFileArrayBuffer = new ArrayBuffer(8 + newHeaderSize + reader.result.byteLength - 8 - metadataSize);
+          const newFileDataView = new DataView(newFileArrayBuffer);
+          newFileDataView.setUint32(0, newHeaderSize, true);
+          new Uint8Array(newFileArrayBuffer, 8, newHeaderSize).set(newHeaderBytes);
+          new Uint8Array(newFileArrayBuffer, 8 + newHeaderSize).set(new Uint8Array(reader.result, 8 + metadataSize));
+          
+          const blob = new Blob([newFileArrayBuffer], { type: "application/octet-stream" });
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = safetensorsFile.name.replace(/(\.[^.]+)$/, `_${purge?"purged":"edited"}$1`);
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+
+          alert(`Metadata ${purge?"purged":"updated"} successfully!`);
+        };
+        reader.readAsArrayBuffer(safetensorsFile);
+      } catch (error) {
+        editorNotificationPanel.innerHTML = "An error occured while updating the file.";
+        console.error(error);
+      }
+    }
+
   </script>
 </body>
 </html>
