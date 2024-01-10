@@ -4,12 +4,15 @@
   <title>LoRA Metadata Viewer</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/tokyo-night-dark.min.css">
   <style>
-    body { font-family: Arial, sans-serif; background-color: #121212; color: #C1C2C5; margin:0; }
+    .light-theme { --bg:##F4F4F4; --vltheme:#3e3a3e; --ltheme:#dddbd6; --theme:#e2dfd8; --dtheme:#ebe8e1; --vdtheme:#f1f0e4; }
+    .dark-theme { --bg:#121212; --vltheme:#c1c5c1; --ltheme:#2C2E33; --theme:#373A40; --dtheme:#25262b; --vdtheme:#1A1B26; }
+    :root { --blue:#4dabf7; --red:#dc3545; }
+    body { font-family: Arial, sans-serif; background-color:var(--bg); color: var(--vltheme); margin:0; }
     .body-content { margin:10px; }
-    #dropArea { width: 100%; border: 2px dashed #373A40; text-align: center; padding: 50px 0; margin-bottom: 20px; background-color: #25262b; }
-    #dropArea.hover { background-color: #2C2E33; }
+    #dropArea { width: 100%; border: 2px dashed var(--theme); text-align: center; padding: 50px 0; margin-bottom: 20px; background-color: var(--dtheme); }
+    #dropArea.hover { background-color: var(--ltheme); }
     .collapsible { cursor: pointer; user-select: none; margin-bottom: 5px; }
-    .collapsible:hover { background-color: #1A1B26; }
+    .collapsible:hover { background-color: var(--vdtheme); }
     .collapsible::before { content: "▼ "; display: inline-block; width: 1em; }
     .active::before { content: "▲ "; }
     .content { display: none; padding: 5px; position: relative; }
@@ -18,17 +21,17 @@
     .note { font-size: 0.7em; font-style: italic; }
     .header { margin:20px; font-size: 2em; font-weight: bold; }
     .footer { margin:10px; text-align: center; font-size: 0.9em; }
-    #notificationPanel, #editorNotificationPanel { text-align: center; color: #dc3545; }
-    a { color: #4dabf7; }
-    textarea { width:100%; color: #C1C2C5; background-color: #2C2E33; }
-    hr { border-color: #373A40 }
+    #notificationPanel, #editorNotificationPanel { text-align: center; color:var(--red); font-weight: bold; }
+    a { color: var(--blue); font-weight: bold; }
+    textarea { width:100%; color: var(--vltheme); background-color: var(--ltheme); }
+    hr { border-color: var(--theme) }
     input[type=checkbox] { margin: 10px;}
     .editor-header { text-align: center; margin: 10px; }
-    .editor-header button { font-size: 1.2em; color: #C1C2C5; background-color: #2C2E33; border: none; border-radius: 10px; padding:8px; }
-    .editor-header button:hover { background-color: #373A40; }
+    .editor-header button { font-size: 1.2em; color: var(--vltheme); background-color: var(--ltheme); border: none; border-radius: 10px; padding:8px; }
+    .editor-header button:hover { background-color: var(--theme); }
   </style>
 </head>
-<body>
+<body class="light-theme">
   <div class="header">
     LoRA Metadata Viewer
   </div>
@@ -47,8 +50,9 @@
       <div><input type="checkbox" id="enableCivitAiInfo" data-display="civitAiInfoPanel" checked><label for="enableCivitAiInfo">Display CivitAI Info</label></div>
       <div><input type="checkbox" id="enableTagFrequency" data-display="tagFrequencyPanel" checked><label for="enableTagFrequency">Display Tag Frequency</label></div>
       <div><input type="checkbox" id="enableMetadata" data-display="metadataPanel" checked><label for="enableMetadata">Display Metadata</label></div>
-      <div><input type="checkbox" id="enableDateFormat" checked><label for="enableDateFormat">Display date fields in human readable format</label></div>
       <div><input type="checkbox" id="enableMetadataEditor" data-display="metadataEditorPanel" checked><label for="enableMetadataEditor">Display Metadata Editor</label></div>
+      <div><input type="checkbox" id="enableDateFormat" checked><label for="enableDateFormat">Display date fields in human readable format</label></div>     
+      <div><input type="checkbox" id="darkMode" onclick="toggleDarkMode()"><label for="darkMode">Dark Mode</label></div>   
       <hr/>
       <div><b>Summary Field Selection:</b> Specify the name of the fields to be displayed in the summary section, separated by commas:</div>
       <textarea id="summaryFields" rows="8" cols="100">ss_output_name,ss_sd_model_name,ss_network_module,ss_total_batch_size,ss_resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_epoch,ss_num_epochs,ss_steps,ss_max_train_steps,ss_learning_rate,ss_text_encoder_lr,ss_unet_lr,ss_shuffle_caption,ss_keep_tokens,ss_flip_aug,ss_noise_offset,ss_adaptive_noise_scale,ss_min_snr_gamma,ss_training_started_at,ss_training_finished_at,sshs_model_hash</textarea>
@@ -86,7 +90,7 @@
     </div>
 
     <div id="metadataPanel">
-      <h3 class="collapsible expanded">Metadata</h3>
+      <h3 class="collapsible">Metadata</h3>
       <div class="content">
         <button class="copy-btn" onclick="copyToClipboard('metadataDisplay')">Copy to clipboard</button>
         <pre id="metadataDisplay"><code class="json">{}</code></pre>
@@ -96,8 +100,8 @@
     <div id="metadataEditorPanel">
       <h3 class="collapsible">Metadata Editor</h3>
       <div class="content">
-        <div class="editor-header">
-          <button onclick="downloadFile()">Save & Download</button>
+        <div id="editorHeader" class="editor-header" style="display: none;">
+          <button onclick="downloadFile()">Update & Download</button>
           <button onclick="downloadFile(true)">Purge & Download</button>
         </div>
         <div id="editorNotificationPanel"></div>
@@ -127,6 +131,8 @@
     const keywordDetails = document.getElementById('keywordDetails');
     const notificationPanel = document.getElementById('notificationPanel');
     const editorNotificationPanel = document.getElementById('editorNotificationPanel');
+    const editorHeader = document.getElementById('editorHeader');
+    const darkMode = document.getElementById('darkMode');
 
     const enableSummary = document.getElementById('enableSummary');
     const enableCivitAiInfo = document.getElementById('enableCivitAiInfo');
@@ -136,6 +142,11 @@
     const enableDateFormat = document.getElementById('enableDateFormat');
 
     let safetensorsFile;
+
+    if(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) { 
+      toggleDarkMode();
+      darkMode.checked = !darkMode.checked;
+    }
 
     try {
       hljs.highlightElement(summary.firstChild);
@@ -304,6 +315,8 @@
       civitaiDisplay.innerHTML = '';
       keywordDetails.innerHTML = '';
       metadataDisplay.innerHTML = '';
+      metadataEditor.value = '';
+      editorHeader.style.display = "none";
     }
 
     function updateMetadata(metadata) {
@@ -316,6 +329,7 @@
     function updateMetadataEditor(metadata) {
       if(enableMetadataEditor.checked) {
         metadataEditor.value = JSON.stringify(metadata, null, 2);
+        editorHeader.style.display = "block";
       }
     }
 
@@ -500,6 +514,11 @@
         editorNotificationPanel.innerHTML = "An error occured while updating the file.";
         console.error(error);
       }
+    }
+
+    function toggleDarkMode(){
+      document.body.classList.toggle('light-theme');
+      document.body.classList.toggle('dark-theme');
     }
 
   </script>
