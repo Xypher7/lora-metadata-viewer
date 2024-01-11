@@ -391,11 +391,11 @@
             if (data) {
               modelUrl.href = baseModelUrl + data.modelId;
               modelUrl.innerHTML = modelUrl.href;
-              resourceUrl.href = baseApiUrl + finalHash; // Use the provided hash
-              resourceUrl.innerHTML = baseApiUrl + finalHash; // Use the provided hash
-              previewImage.src = data.images[0].url;
+              resourceUrl.href = baseApiUrl + finalHash;
+              resourceUrl.innerHTML = baseApiUrl + finalHash;
               civitaiDisplay.innerHTML = '<code class="json">' + JSON.stringify(data, null, 2) + '</code>';
               try { hljs.highlightElement(civitaiDisplay.firstChild); } catch (error) {}
+              previewImage.src = data.images[0].url;
             } else {
               console.log('No valid response found.');
             }
