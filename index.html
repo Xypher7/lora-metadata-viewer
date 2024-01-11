@@ -112,7 +112,7 @@
 
   <hr/>
   <div class="footer">
-    LoRA Metadata Viewer v1.4 | 
+    LoRA Metadata Viewer v1.4.2 | 
     <a href="https://github.com/Xypher7/lora-metadata-viewer" target='_blank'>GitHub</a> |
     <a href="https://civitai.com/models/249721/lora-metadata-viewer" target='_blank'>CivitAI</a>
   </div>
@@ -187,6 +187,7 @@
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
     fileInput.style.display = 'none';
+    fileInput.accept = '.safetensors';
     document.body.appendChild(fileInput);
 
     dropArea.addEventListener('click', () => {
