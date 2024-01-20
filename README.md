@@ -26,6 +26,6 @@ The tool is designed to be used offline and processing is entirely done on your 
 
 ## Screenshots
 
-![App Screenshot](https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/aa0033dc-82e1-4d3b-8c54-9be70ae791e3/original=true/Screenshot%202024-01-03%20103726.jpeg)
+![App Screenshot](https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/c9d8597c-2443-4432-8dbc-e3969716ef85/original=true/Screenshot%202024-01-10%20035409.jpeg)
 
-![App Screenshot](https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ae8d3dff-e519-489b-8b9c-d99a2359f743/original=true/Screenshot%202024-01-03%20103805.jpeg)
+![App Screenshot](https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/2f93dbcd-4044-4f3a-a5f9-15fb03df8ce0/original=true/Screenshot%202024-01-10%20035444.jpeg)
