@@ -66,7 +66,7 @@
       <div><input type="checkbox" id="darkMode" class="settings-field" onclick="toggleDarkMode()" checked><label for="darkMode">Dark Mode</label></div>   
       <hr/>
       <div><b>Summary Field Selection:</b> Specify the name of the fields to be displayed in the summary section, separated by commas:</div>
-      <textarea id="summaryFields" class="settings-field" rows="8" cols="100">ss_output_name,ss_sd_model_name,ss_network_module,ss_total_batch_size,ss_resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_epoch,ss_num_epochs,ss_steps,ss_max_train_steps,ss_learning_rate,ss_text_encoder_lr,ss_unet_lr,ss_shuffle_caption,ss_keep_tokens,ss_flip_aug,ss_noise_offset,ss_adaptive_noise_scale,ss_min_snr_gamma,ss_training_started_at,ss_training_finished_at,sshs_model_hash</textarea>
+      <textarea id="summaryFields" class="settings-field" rows="8" cols="100">ss_output_name,ss_sd_model_name,ss_network_module,ss_total_batch_size,ss_resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_epoch,ss_num_epochs,ss_steps,ss_max_train_steps,ss_learning_rate,ss_text_encoder_lr,ss_unet_lr,ss_shuffle_caption,ss_keep_tokens,ss_flip_aug,ss_noise_offset,ss_adaptive_noise_scale,ss_min_snr_gamma,ss_training_started_at,ss_training_finished_at,training_time,sshs_model_hash</textarea>
       <div class="note">Note: If you wish to modify the default list shown here, open this file in a text editor, search for "summaryFields", and modify the values contained within the 'textarea' tag.</div>
       <button class="settings-button" onclick="clearSettings()">Restore Default Settings</button>
     </div>
@@ -124,7 +124,7 @@
 
   <hr/>
   <div class="footer">
-    LoRA Metadata Viewer v1.4.3 | 
+    LoRA Metadata Viewer v1.4.4 | 
     <a href="https://github.com/Xypher7/lora-metadata-viewer" target='_blank'>GitHub</a> |
     <a href="https://civitai.com/models/249721/lora-metadata-viewer" target='_blank'>CivitAI</a>
   </div>
@@ -292,6 +292,7 @@
 
           formatDate(metadata, 'ss_training_started_at');
           formatDate(metadata, 'ss_training_finished_at');
+          setTimeDifference(metadata, 'training_time', metadata.ss_training_started_at, metadata.ss_training_finished_at);
 
           updateMetadata(metadata);
           updateSummary(metadata);
@@ -309,6 +310,18 @@
     function formatDate(metadata, prop){
       if(enableDateFormat.checked && metadata[prop])  
         metadata[prop] = new Date(metadata[prop] * 1000);     
+    }
+
+    function setTimeDifference(metadata, prop, date1, date2) {
+      if(!enableDateFormat.checked || !date1 || !date2) 
+        return;
+      const date1ms = date1.getTime();
+      const date2ms = date2.getTime();
+      const ms = Math.abs(date2ms - date1ms);// (1000 * 60);
+      const h = Math.floor(ms / (1000 * 60 * 60));
+      const m = Math.floor((ms % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((ms % (1000 * 60)) / 1000);
+      metadata[prop] = `${h}h ${m}m ${s}s`;
     }
 
     function clearAll(){
