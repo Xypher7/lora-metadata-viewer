@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>LoRA Metadata Viewer</title>
+    <!-- Link to the extension's CSS. The actual path might be adjusted by SwarmUI's asset serving. -->
+    <link rel="stylesheet" type="text/css" href="lora_metadata.css">
+</head>
+<body>
+    <div class="lora-metadata-container">
+        <h1>LoRA Metadata Viewer</h1>
+
+        <div id="metadataOutput" class="swarmui-metadata-output">
+            <p>Select a LoRA from the SwarmUI LoRA browser to view its metadata here.</p>
+        </div>
+
+        <hr class="civitai-separator" style="display: none;">
+
+        <div id="civitaiSection" style="display: none;">
+            <h2>CivitAI Information:</h2>
+            <button id="fetchCivitaiBtn" class="swarmui-button" style="margin-bottom: 10px;">Fetch CivitAI Info</button>
+            <div id="civitaiInfoOutput" class="swarmui-metadata-output">
+                <p>Click the button above to attempt to fetch information from CivitAI for the selected LoRA.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Link to the extension's JavaScript. -->
+    <script src="lora_metadata.js"></script>
+</body>
+</html>
