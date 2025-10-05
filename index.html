@@ -3,17 +3,36 @@
 <head>
   <title>LoRA Metadata Viewer</title>
   <meta charset="UTF-8">
-  <link id="favicon" rel="icon" type="image/x-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAACxMAAAsTAQCanBgAAAL0SURBVDhPtZNfSFNRHMe/2929m9t1Tudymumcc1bWQyZCSpaBCWIqgnspfcmHgh6ioKfsobeEXnpIg+ghAtGyByNB9MF/EJkPKigT1Dmnc+7un/u/u7vd7l0mVERPfeBw+B3O98v5nt85+G88uN2rECbqR/V3JEdzhtZLV9V3my03k7FIQ05untnqdiRoktyNBgPT5lJzwaJ9k3P43KMvht+sHUl+MaBXB8feIZls94cCoBUqYUkCnU4Lf8AHVZYKm24n9mN+2+Sn91feLn1ziKJjg8WXH57p9UWP1CkJVCoVJIQMiXAUnlQMNAgsWVfgCoew6Xcir8rwWl9W+rSzvcMhFcVjT55fK9bk35OlgUgsBgkvQYJN4MDDgEzxkKR56DUFMOYVgoiSKCmv6KWVygZRK73V0XOhrNA0mEVQSsa9j9XADoJeH0KMD242iHSSBZ9MQSGXY2F9BzYmjnAwDp/Pny0aECvW5cid613VlEJ2/quPwQGnhffAhiAbwqzXhi2vE+W5BciSkSAVJAiTHgZzETguaQyHwxOEYML21LfUqIz05ZLyk5BSOpiaz+LExQq49hRCJDXOaeWg0lKw8jQK68woNZxCpblSR1Ikm7kDz+HheiKSRFFuFmrrteCRgpySo7HBjGqDGjkyJXYDXtB1Z6DWqCGTyZCdTUOr1RoyBmtu+yTHcLblhS24QuFMXjYhZE/7QdAhMFE/FPUmGKoqYSwrE1qrQ5LjIETwiBEwtfwlVJpfvEWZCtqKTUYqX9ggtlKZp0UoGkE6m0RlXS3A87BardBoNLDb7Z6+vr6Hov6Ymbm5zxsbG/zU1JRvz7kX5ziOPwwc8rF4nHe5XNz4+Pj8xMTELsuy/MfR0QFRk4nwk/nZ+QGGYfxDQ0P3b7S2dm5vb8fUOWo4dnacnZ2WtpaWliaeT8/GhLciJaTkkewPzMIQPxIGB189Fo7Kz8xMLwplJm6XxXJ6eGR4pL//WZNY/xOLxdLY3d1dc1T+BvAd/0w7pD7OdiEAAAAASUVORK5CYII=">
+  <link id="favicon" rel="icon" type="image/x-icon" href="data:image/webp;base64,UklGRhQEAABXRUJQVlA4WAoAAAAQAAAAFwAAFwAAQUxQSOcAAAABkGtr27FHd+zKdm3b9iHYRp3KtpNKpdOlsm3bNmbmewY/3jmDiJgA/G9pCw8XE22hRBzr124e7q/Pu2OaR5sd+EmHv5HAv0okeEgk/SQhv/x4OByRsFyTAQDJdmL4CIjEfrK4FUXkG7H8lsXwDyavZqIyD0zoMhDPbKgP64wuUMnoGbYcmyeID3FMDgH3TRZcGyAWyuJeGYDiM9H3Tz7c8SERJePfXKLB7K5/HkZznKqJKIOHwiQXKaL2SURzJmIw5ohaeUDJEUDYI9G4DoDsmz0jXjxFw5deimQAiPqaQHAxZW158AcAVlA4IAYDAACQEgCdASoYABgAAAAAJZACxHzQwNsAo5P2zXLluoHWV+gB0hnkyXLn8AP1J7AbqD6W/rzoAPpf8o/EP9wP8zpFfxZ/Zn/d7YB+GfqQfFP5X+Of5GbAx/K/xc4gD2AP4B/RP4B+rv+A9wL9V8AD+k/kB9AH8I/h38z/F/+4f9jlCf0lPrKuUSoT2/Sv58f9qt/mKkt2czTroN74uN4AAP5//b80yteOE7EOjoXcALVj/i9Vrd+9KhFotEMz7GtSd/Z/hynF8qbzzm4xXbzBf+6uP1iMormIqovu4sIB0GgsAkmF7gDrR0IRnTHkIAIhlepcjzQuqkqsUC3/UKf7ZmQKsi1NPQ4L8npBsOl5z5XmWEzZFzDGrD7Ie9//fq5XqKuXjDsh/Sxb/gbgy/XKZRnhuxl3G4dnflf/T8wlvtLeP3Tf/03TPKwPXHffvEpqmh//iMYp9Jq63glDYjZ5IA0xq/z4mGiSFHlh3gWUnuVoBzyJTV+To738nKbxQ77nT6dWYzeATn5w9D8wa//XQFf+Gs11w4MMC3/iag/8Nfzrsjwv/sP92EF/v/9cnui6pf6i23xn1lF2cd/v6x3bmUhCmbYm4BguDlXOmZFUnvdMaN0PYPuMZja8/5CteZ1oLrbEc8VS3Tl4FULGa+pfgtQ8gA2hdctrnQheR370RzIf/MHlAgKL3XvUdI8m8PLeXXDQYS+ebpjH95qlBh3XM2LMoaEBR5xh+Sw5UKlr5laqCeb8sAafvXE8YL8yTEigjkaU5N/jHGVlkkSHOllZu6JSbTdyyKlp+c3UqDkyaMt+BNzmK3I/uKsPkJHBLv5UBaon7JGxMYDTsbTm/1/L8A9bZy/f//NHwv/0hamZddrxz3N3DX2tKaTzBS9procNdLg3wzHulnK5yv/5Vmy3iAVgrX3BFInXPa+cgni7lACSPEal5Lg9PzqeiG9RIO0/M+OI6SBpEh/pJNGwUgTwX+vCRri7Gmav4+Y0gZncYMc/kDMcZh8tcqXpiG2e/quSbcFE7FYQAAA=">
   <style>
     :root { --link:#4dabf7; --error:#dc3545; --databg:#f1f0e4; --datatxt:#c1c5c1; --string:#64ad15; --key:#8563c1; --number:#ff9e64; --boolean:#61aeee; --null:#e06c75;}
-    :root { --bg:#F4F4F4; --vltheme:#3e3a3e; --ltheme:#dddbd6; --theme:#e2dfd8; --dtheme:#ebe8e1; --vdtheme:#f1f0e4; }
-    .dark-theme { --bg:#121212; --vltheme:#c1c5c1; --ltheme:#2C2E33; --theme:#373A40; --dtheme:#25262b; --vdtheme:#1A1B26; --databg:#1A1B26; --string:#9ece6a; --key:#bb9af7;}
-    body { font-family: Arial, sans-serif; background-color:var(--bg); color: var(--vltheme); margin:0; }
+    :root { --primary:#e2dfd8; --bg:#F4F4F4; --text:#3e3a3e; --ntext:var(--text); --inputtext:var(--text); --inputbg:#dddbd6; --inputborder:#777; --hover:color-mix(in srgb, var(--primary) 80%, white); }
+    :root { --font: Arial, sans-serif; }
+    .light-theme { --hover:color-mix(in srgb, var(--primary) 80%, white); } 
+    .dark-theme { --bg:#121212; --text:#c1c5c1; --ntext:#3e3a3e; --inputtext:var(--text); --inputbg:#2C2E33; --hover:color-mix(in srgb, var(--primary) 80%, white); --databg:#1A1B26; --string:#9ece6a; --key:#bb9af7; }
+    .default-light-theme { --primary:#e2dfd8; }
+    .default-dark-theme { --primary:#373A40; --ntext:var(--text); }
+    .console-theme { --primary:#22c92a; --font: monospace;  --bg:#000; --text:var(--primary); --ntext:#000; --inputtext:var(--text); --inputbg: var(--bg); --inputborder: var(--primary); --hover:var(--primary); --databg:#000; --string:#9ece6a; --key:#bb9af7; }
+    .doro-theme { --primary:#fcb8d1; --font: cursive;  --bg:#fff; --text:#983cc3; --ntext:#983cc3; --inputtext:var(--text); --inputbg: #fff0f0; --inputborder: var(--primary); --hover:var(--primary); --databg:#000; }
+    .amber-theme { --primary:#ffc400; } 
+    .blue-theme { --primary:#4369fe; }
+    .lightblue-theme { --primary:#50c7ff; }
+    .cyan-theme { --primary:#00cccc; }
+    .green-theme { --primary:#22c92a; }
+    .lightgreen-theme { --primary:#97c922; }
+    .magenta-theme { --primary:#ff307f; }
+    .orange-theme { --primary:#ff8800; }
+    .purple-theme { --primary:#983cc3; }
+    .red-theme { --primary:#c90000; }
+    .pink-theme { --primary:#ffa3cb; }
+    .teal-theme { --primary:#00ac95; }
+    .yellow-theme { --primary:#ffee00; }  
+    body { font-family: var(--font); background-color:var(--bg); color: var(--text); margin:0; }
     .body-content { margin:10px; }
-    #dropArea { width: 100%; border: 2px dashed var(--theme); text-align: center; padding: 30px 0; margin-bottom: 20px; background-color: var(--dtheme); border-radius: 20px; }
-    #dropArea.hover { background-color: var(--ltheme); }
+    #dropArea { width: 100%; border: 2px dashed var(--primary); text-align: center; padding: 30px 0; margin-bottom: 20px; background-color: var(--inputbg); border-radius: 20px; }
+    #dropArea.hover { background-color: var(--hover); color: var(--ntext);  }
     .collapsible { cursor: pointer; user-select: none; margin-bottom: 5px; }
-    .collapsible:hover { background-color: var(--vdtheme); border-radius: 10px; }
+    .collapsible:hover { background-color: var(--hover); color: var(--ntext); border-radius: 10px; }
     .collapsible::before { content: "▼ "; display: inline-block; width: 1em; }
     .collapsible.active::before { content: "▲ "; }
     .content { display: none; padding: 5px; position: relative; }
@@ -25,28 +44,32 @@
     #notificationPanel, #editorNotificationPanel, .error { text-align: center; color:var(--error); font-weight: bold; }
     #settings-btn { position: absolute; top: 0; right: 0; }
     #settings-btn.collapsible::before, #settings-btn.collapsible.active::before { content: none; }
+    #settings-panel-display span { margin-right: 16px;  }
     a { color: var(--link); font-weight: bold; text-decoration: none; }
-    input, textarea, select { font-family: monospace; color: var(--vltheme); background-color: var(--ltheme); border-radius: 10px;  }
+    select, input, textarea, button { border-color: var(--inputborder); }
+    input, textarea, select { font-family: monospace; color: var(--text); background-color: var(--inputbg); border-radius: 10px;  }
     input { padding:5px; }
     textarea { width: 100%; }
     select { font-size: 1.3em; padding: 5px;}
-    hr { border: none; border-bottom: 1px solid var(--theme); }
+    hr { border: none; border-bottom: 1px solid var(--primary); }
     input[type=checkbox] { margin: 10px;}
     pre { margin: 0; }
     .json-data { overflow: overlay; background:var(--databg); color:var(--datatxt); padding: 10px; border-radius: 10px; }
     .editor-header { text-align: center; margin: 10px; }
-    .editor-header button, .settings-button, .custom-file-upload { font-size: 1.1em; color: var(--vltheme); background-color: var(--ltheme); border: none; border-radius: 10px; padding:8px; }
-    .editor-header button:hover, .settings-button:hover, .custom-file-upload:hover { background-color: var(--theme); }
+    .editor-header button, .settings-button, .custom-file-upload { font-size: 1.1em; color: var(--text); background-color: var(--inputbg); border: 1px solid var(--primary); border-radius: 10px; padding:8px; }
+    .editor-header button:hover, .settings-button:hover, .custom-file-upload:hover { background-color: var(--hover); color:var(--ntext); }
+    .abort { font-size: 0.8em; display: none; }
     .custom-file-upload > input { display: none; }
     .svg-icon { width: 1em; height: 1em;}
     .svg-icon-lg { width: 3em; height: 3em;}
-    .svg-icon path, .svg-icon polygon, .svg-icon rect { fill: var(--vltheme); }
-    .svg-icon circle { stroke: var(--vltheme); stroke-width: 1; }
+    .svg-icon path, .svg-icon polygon, .svg-icon rect { fill: var(--text); }
+    .svg-icon circle { stroke: var(--text); stroke-width: 1; }
+    #dropArea.hover .svg-icon path { fill: var(--ntext); }
     .flex-container { display: flex; }
     .string { color:var(--string); }
     .key { color:var(--key); }
-    .summary-table td .string { color: var(--vltheme); }
-    .summary-table td { border-bottom: 1px solid var(--theme); width: 100%; padding:4px; }
+    .summary-table td .string { color: var(--text); }
+    .summary-table td { border-bottom: 1px solid var(--primary); width: 100%; padding:4px; }
     .summary-table tr td:first-child { font-weight: bold; width: auto; white-space: nowrap; padding-right: 20px; }
     .summary-table select { font-size: 1em;}
     .summary-table input[type=text] { width: 100%; width: -moz-available; width: -webkit-fill-available; }
@@ -59,25 +82,35 @@
     .editable-list td { padding: 5px;  }
     .editable-list th { text-align: left; }
     .pillbox { display: inline-block; border: 1px solid #ccc; border-radius: 20px; padding: 4px 6px; margin: 5px; }
-    .pillbox span { background-color: var(--theme); border-radius: 10px; padding: 2px 4px; margin: 2px; }
+    .pillbox span { background-color: var(--primary); border-radius: 10px; padding: 2px 4px; margin: 2px; }
     .section-header { font-size: 1.2em; font-weight: bold;}
     .notes { font-style: italic; font-size: 0.8em; }
     .summary-grid { display: flex; flex-wrap: wrap; font-size: 20px; color: var(--datatxt);} 
-    .summary-grid > div { border: 1px solid var(--dtheme); background-color: var(--databg); align-self: flex-start; border-radius: 12px; margin: 5px; padding:5px; } 
+    .summary-grid > div { border: 1px solid var(--inputbg); background-color: var(--databg); align-self: flex-start; border-radius: 12px; margin: 5px; padding:5px; } 
     .summary-grid > div > div:first-child { color: var(--string); font-size: 16px;} 
-    .tabcontent { display: none; border:1px solid var(--theme); border-radius: 0 20px 20px 20px; padding: 10px; margin-bottom: 10px; }
-    .tablinks { font-size: 1em; color: var(--vltheme); background-color: var(--ltheme); cursor: pointer; padding: 10px 20px; margin: 0; border:none; border-radius: 12px 12px 0 0; }
-    .tablinks.active { background-color: var(--vltheme); color: var(--theme); }
+    .tabcontent { display: none; border:1px solid var(--primary); border-radius: 0 20px 20px 20px; padding: 10px; margin-bottom: 10px; }
+    .tablinks { font-size: 1em; color: var(--text); background-color: var(--inputbg); cursor: pointer; padding: 10px 20px; margin: 0; border: 1px solid var(--primary); border-radius: 12px 12px 0 0; }
+    .tablinks:hover, .tablinks.active { background-color: var(--hover); color: var(--ntext); }
     .tooltip { position:absolute; background-color: black; color: white; padding: 5px; border-radius: 3px; z-index: 1000; }
-    .copyable-item { cursor: pointer; background-color: var(--ltheme); font-weight: normal; border-radius: 8px; padding: 3px; }
-    .copyable-item:hover { background-color: var(--theme); }
+    .copyable-item { cursor: pointer; background-color: var(--inputbg); font-weight: normal; border-radius: 8px; padding: 3px; }
+    .copyable-item:hover { background-color: var(--hover); color: var(--ntext); }
     #loading { display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); font-size: 1.5rem; color: #ffffff; background: rgba(0, 0, 0, 0.7); padding: 20px; border-radius: 10px; z-index: 1000; min-width: 300px; text-align: center; }
     #loading .spinner { margin: 10px auto; border: 4px solid rgba(255, 255, 255, 0.3); border-radius: 50%; border-top: 4px solid #ffffff; width: 30px; height: 30px; animation: spin 1s linear infinite; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .progress-container { width: 100%; height: 30px; background-color: #f3f3f3; border: 1px solid #ccc; border-radius: 5px; position: relative; margin: 20px 0; text-align: center; }
     .progress-bar { height: 100%; width: 0;  background-color: #4caf50; border-radius: 5px; position: absolute; top: 0; left: 0;  transition: width 0.2s ease-in-out; }
     .progress-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-weight: bold; color: black; z-index: 2; }
-    doro-doro { position: absolute; margin: -15px 0 0 10px; }
+    .preview-image img, .preview-image video { width: 100%; max-width: 500px; }
+    #toast-container { position: fixed; top: 1rem; right: 1rem; display: flex; flex-direction: column; gap: 0.5rem; z-index: 9999; }
+    .toast { background-color: #333; padding: 1rem 1.5rem; border-radius: 0.5rem; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); position: relative; min-width: 200px; max-width: 300px; font-family: sans-serif; color: #fff; animation: fadeIn 0.3s ease; }
+    .toast span { margin-right: 20px; }
+    .toast.success { background-color: #2ecc71; }
+    .toast.error { background-color: #e74c3c; }
+    .toast.warning { background-color: #f39c12; }
+    .toast.info { background-color: #3498db; }
+    .toast .close-btn { position: absolute; top: 0.5rem; right: 0.7rem; background: none; border: none; color: #fff; font-size: 1rem; cursor: pointer; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    doro-doro { position: absolute; margin: -12px 0 0 6px; }
   </style>
 </head>
 <body class="dark-theme">
@@ -87,7 +120,7 @@
   </div>
   <hr/>
   <span id="settings-btn" class="collapsible boom" data-target="settings-panel">⚙</span>
-
+  <div id="toast-container"></div>
   <div class="body-content">
     <div id="settings-panel" class="content">
       <div class="tab-container">
@@ -96,8 +129,10 @@
           <button class="tablinks" data-target-tab="tab2">Summary</button>
           <button class="tablinks" data-target-tab="tab3">Metadata Editor</button>
           <button class="tablinks" data-target-tab="tab4">Custom Fields</button>
+          <button class="tablinks" data-target-tab="tab5">Online Lookup</button>
       
           <div id="tab0" class="tabcontent">
+            <div><input type="checkbox" id="enableUpdateCheck" class="settings-field" checked><label for="enableUpdateCheck">Check for updates</label></div>
             <div><span class="notes">Settings are stored in your browser through the Local Storage API and will persist across sessions. Use this section to either reset, load, or save your current configuration.</span></div>           
             <button id="clearSettingsBtn" class="settings-button">Restore Default Settings</button>
             <button id="exportSettingsBtn" class="settings-button">Export Settings</button>
@@ -106,13 +141,100 @@
             <span id="importSettingsFileName">No file chosen</span>
           </div>
           <div id="tab1" class="tabcontent">
+            <div class="section-header boom">Display Settings</div>
+            <hr>
+            <div id="settings-panel-display">
+              <span>
+                <label for="themeSelect">Theme: </label>
+                <select id="themeSelect" class="settings-field">
+                  <option value="default" selected>Default</option>
+                  <option value="light-theme">Light</option>
+                  <option value="dark-theme">Dark</option>
+                  <option value="console-theme">Hackerman</option>
+                  <option value="doro-theme">:3</option>
+                </select>
+              </span>
+              <span>
+                <label for="themeColorSelect">Color: </label>
+                <select id="themeColorSelect" class="settings-field">
+                  <option value="default" selected>Default</option>
+                  <option value="amber-theme">Amber</option>
+                  <option value="blue-theme">Blue</option>
+                  <option value="lightblue-theme">Blue (Light)</option>
+                  <option value="cyan-theme">Cyan</option>
+                  <option value="green-theme">Green</option>
+                  <option value="lightgreen-theme">Green (Light)</option>
+                  <option value="magenta-theme">Magenta</option>
+                  <option value="orange-theme">Orange</option>
+                  <option value="red-theme">Red</option>
+                  <option value="pink-theme">Pink</option>
+                  <option value="purple-theme">Purple</option>
+                  <option value="teal-theme">Teal</option>
+                  <option value="yellow-theme">Yellow</option>
+                  <option value="custom-theme">Custom</option>
+                </select>
+                <input id="themeColorPicker" type="color" class="settings-field" value="#888888">
+              </span>
+              <span>
+                <label for="themeBgColorSelect">Background Color: </label>
+                <select id="themeBgColorSelect" class="settings-field">
+                  <option value="" selected>Default</option>
+                  <option value="black">Black</option>
+                  <option value="white">White</option>
+                  <option value="custom-theme">Custom</option>
+                </select>
+                <input id="themeBgColorPicker" type="color" class="settings-field" value="#888888">
+              </span>
+              <span>
+                <label for="themeInputColorSelect">Textbox Color: </label>
+                <select id="themeInputColorSelect" class="settings-field">
+                  <option value="" selected>Default</option>
+                  <option value="black">Black</option>
+                  <option value="white">White</option>
+                  <option value="custom-theme">Custom</option>
+                </select>
+                <input id="themeInputColorPicker" type="color" class="settings-field" value="#888888">
+              </span>
+              <span>
+                <label for="themeFont">Font: </label>
+                <select id="themeFont" class="settings-field">
+                  <option value="">Default</option>
+                  <option value="Arial, sans-serif">Arial</option>
+                  <option value="cursive">Cursive</option>
+                  <option value="monospace">Monospace</option>
+                </select>
+              </span>
+              <span>
+                <label for="themeFontColorSelect">Font Color: </label>
+                <select id="themeFontColorSelect" class="settings-field">
+                  <option value="" selected>Default</option>
+                  <option value="black">Black</option>
+                  <option value="white">White</option>
+                  <option value="#ffc400">Amber</option>
+                  <option value="#4369fe">Blue</option>
+                  <option value="#50c7ff">Blue (Light)</option>
+                  <option value="#00cccc">Cyan</option>
+                  <option value="#22c92a">Green</option>
+                  <option value="#97c922">Green (Light)</option>
+                  <option value="#ff307f">Magenta</option>
+                  <option value="#ff8800">Orange</option>
+                  <option value="#c90000">Red</option>
+                  <option value="#ffa3cb">Pink</option>
+                  <option value="#983cc3">Purple</option>
+                  <option value="#00ac95">Teal</option>
+                  <option value="#ffee00">Yellow</option>
+                  <option value="custom-theme">Custom</option>
+                </select>
+                <input id="themeFontColorPicker" type="color" class="settings-field" value="#888888">
+              </span>
+            </div>
+            <hr>
             <div><input type="checkbox" id="enableSummary" class="settings-field" data-display="summaryPanel" checked><label for="enableSummary">Display Summary</label></div>
-            <div><input type="checkbox" id="enableCivitAiInfo" class="settings-field" data-display="civitAiInfoPanel" checked><label for="enableCivitAiInfo">Display CivitAI Info</label></div>
+            <div><input type="checkbox" id="enableOnlineLookup" class="settings-field" data-display="onlineLookupPanel" checked><label for="enableOnlineLookup">Display Online Lookup Info</label></div>
             <div><input type="checkbox" id="enableSuggestedPrompt" class="settings-field" data-display="suggestedPromptPanel" checked><label for="enableSuggestedPrompt">Display Suggested Prompt</label></div>
             <div><input type="checkbox" id="enableTagFrequency" class="settings-field" data-display="tagFrequencyPanel" checked><label for="enableTagFrequency">Display Tag Frequency</label></div>
             <div><input type="checkbox" id="enableMetadata" class="settings-field" data-display="metadataPanel" checked><label for="enableMetadata">Display Metadata</label></div>
             <div><input type="checkbox" id="enableMetadataEditor" class="settings-field" data-display="metadataEditorPanel" checked><label for="enableMetadataEditor">Display Metadata Editor</label></div>
-            <div><input type="checkbox" id="darkMode" class="settings-field" onclick="toggleDarkMode()" checked><label for="darkMode">Dark Mode</label></div>   
           </div>
           <div id="tab2" class="tabcontent">
             <div><input type="checkbox" id="showUndefinedSummaryValues" class="settings-field" checked><label class="section-header" for="showUndefinedSummaryValues">Show undefined summary values</label></div>
@@ -124,17 +246,17 @@
             <textarea id="customTemplate" spellcheck="false" class="settings-field" rows="60" cols="100">
               <style>
                 .tile { display: flex; flex-direction: column; margin: 10px; overflow-wrap: anywhere; } 
-                .tile > div > div:first-child { border-bottom: 1px solid var(--vltheme); font-size: 0.8em; width: fit-content; } 
+                .tile > div > div:first-child { border-bottom: 1px solid var(--text); font-size: 0.8em; width: fit-content; } 
                 .tile > div { padding: 5px; }
-                .tile > div:first-child { border-bottom: 1px solid var(--vltheme); font-size: 1em; width: 100%; padding: 0; margin-bottom: 10px; } 
+                .tile > div:first-child { border-bottom: 1px solid var(--text); font-size: 1em; width: 100%; padding: 0; margin-bottom: 10px; } 
                 .break { flex-basis: 100%; height: 0;}
                 .prompt { font-size: 0.7em; }
               </style>
               <div class="custom-grid" style="display: flex; font-size: 20px;">
                 <div class="tile" style="max-width: 320px; min-width: 320px;">
                   <div>Model</div>
-                  <div>{{custom.civitai_link}}</div>
-                  <div style="font-size: 0.8em;">{{custom.civitai_name?}}</div>
+                  <div>{{custom.link}}</div>
+                  <div style="font-size: 0.8em;">{{custom.title?}}</div>
                   <div class="null">{{custom.preview}}</div>
                   <div style="max-height: 42px;">
                     <div>Creator</div>
@@ -160,6 +282,10 @@
                 <div class="custom-grid" style="display: flex; flex-wrap: wrap;">
                   <div class="tile">
                     <div>General</div>
+                    <div>
+                      <div>Prediction Type</div>
+                      <div>{{modelspec.prediction_type}}</div>
+                    </div>
                     <div>
                       <div>Batch</div>
                       <div>{{custom.batch_size}}</div>
@@ -282,8 +408,13 @@
                   </div>
                   <div class="break"></div>
                   <div class="tile">
-                    <div>Trigger Words (CivitAI)</div>
-                    <div id="triggerWordsPrompt" class="prompt">{{civitai.trainedWords?}}</div>
+                    <div>Trigger Words ({{custom.lookup_source?}})</div>
+                    <div id="triggerWordsPrompt" class="prompt">{{custom.trigger_words?}}</div>
+                  </div>
+                  <div class="break"></div>
+                  <div class="tile">
+                    <div>Training Comment</div>
+                    <div>{{ss_training_comment}}</div>
                   </div>
                 </div>
               </div>
@@ -314,8 +445,113 @@
               </template>
             </table>
             <button class="settings-button" onclick="addListItem('editableList','listItemTemplate')">Add Custom Field</button>
-            <button class="settings-button" onclick="document.getElementById('customFields').dispatchEvent(new Event('input', { bubbles: true, cancelable: true }))">Save Custom Field Changes</button>
+            <button class="settings-button" onclick="$('customFields').dispatchEvent(new Event('input', { bubbles: true, cancelable: true }))">Save Custom Field Changes</button>
             <textarea id="customFields" class="settings-field" style="display: none;" rows="12" spellcheck="false" data-editable-list="editableList"></textarea>      
+          </div>
+          <div id="tab5" class="tabcontent">
+            <div><span class="section-header">Resource Lookup</span></div>
+            <div>
+              <div>
+                <label for="primaryLookup"><span>Primary Lookup</span></label>
+                <select id="primaryLookup" class="settings-field" data-select-toggle>
+                  <option>Disabled</option>
+                  <option value="civ">CivitAI</option>
+                  <option value="aec">Arc En Ciel</option>
+                </select>
+                </select>
+                <label for="secondaryLookup"><span>Secondary Lookup</span></label>
+                <select id="secondaryLookup" class="settings-field" data-select-toggle>
+                  <option>Disabled</option>
+                  <option value="civ">CivitAI</option>
+                  <option value="aec">Arc En Ciel</option>
+                </select>
+              </div>
+            </div>
+            <hr>
+            <div><span class="section-header">HTTP Proxy</span></div>
+            <div><input type="checkbox" id="enableProxy" class="settings-field" checked><label for="enableProxy">Use HTTP Proxy for Arc En Ciel resource lookup</label></div>
+            <div class="notes">Required for Arc En Ciel resource lookup due to site security restrictions. If enabled, requests to Arc En Ciel will be routed through the proxy URL.</div>
+            <br>
+            <div>
+              <label for="proxyUrl"><span>Proxy URL</span></label>
+              <input type="text" id="proxyUrl" class="settings-field" style="width: -webkit-fill-available;">
+            </div>
+            <br>
+            <div>
+              <div class="collapsible" data-target="local-proxy-panel">Local HTTP Proxy (Optional)</div>
+              <div id="local-proxy-panel">
+                <div class="notes">Alternatively, a proxy web server may be hosted locally with the following minimal python script. To run the proxy locally, download/copy the following 'proxy.py' python script, place the file in the same folder as this application's .html file, and execute the script with the following command <u class="key copyable-item">python proxy.py --port 8008</u> . Running the command will launch the app at <u class="key copyable-item">http://localhost:8008</u>. Replace the "Proxy URL" setting above with <u class="key copyable-item">http://localhost:8008/?url=</u> to use the local instance.</div>
+                <br>
+                <div class="section-header">proxy.py - <a href="#" onclick="downloadProxyScript()">Download</a></div>
+                <div id="proxy-script-panel">
+                  <button class="copy-btn" onclick="copyToClipboard('proxyScript',event)">Copy to clipboard</button>
+                  <pre id="proxyScript" class="json-data">
+import http.server
+import socketserver
+import webbrowser
+import argparse
+from urllib.parse import urlparse, parse_qs, unquote
+import urllib.request
+import urllib.error
+import os
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--port', type=int, default=8008)
+parser.add_argument('--html_file', type=str, default="index.html")
+args = parser.parse_args()
+
+PORT = args.port
+HTML_FILE = args.html_file
+
+if not os.path.exists(HTML_FILE):
+    raise FileNotFoundError(f"{HTML_FILE} not found")
+
+class CORSRequestHandler(http.server.SimpleHTTPRequestHandler):
+    def end_headers(self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+        self.send_header('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type')
+        super().end_headers()
+
+    def do_GET(self):
+        parsed = urlparse(self.path)
+        query = parse_qs(parsed.query)
+        target = query.get('url', [None])[0]
+        if target:
+            try:
+                print(f'Fetching: {target}')
+                req = urllib.request.Request(
+                    unquote(target),
+                    headers={ 'User-Agent': 'Mozilla/5.0', 'Accept': '*/*' }
+                )
+                with urllib.request.urlopen(req) as resp:
+                    self.send_response(resp.status)
+                    for k, v in resp.getheaders():
+                        self.send_header(k, v)
+                    self.end_headers()
+                    self.wfile.write(resp.read())
+            except urllib.error.HTTPError as e:
+                self.send_response(e.code)
+                for k, v in e.headers.items():
+                    self.send_header(k, v)
+                self.end_headers()
+                self.wfile.write(e.read())
+            except Exception as e:
+                self.send_response(500)
+                self.end_headers()
+                self.wfile.write(str(e).encode())
+        else:
+            super().do_GET()
+
+os.chdir(os.path.dirname(os.path.abspath(HTML_FILE)))
+with socketserver.TCPServer(('', PORT), CORSRequestHandler) as httpd:
+    print(f"Serving on http://localhost:{PORT}")
+    webbrowser.open(f"http://localhost:{PORT}/{HTML_FILE}")
+    httpd.serve_forever()
+                  </pre>
+                </div>
+              </div>
+            </div>
           </div>
       </div>
     </div>
@@ -455,15 +691,15 @@
       </div>
     </div>
 
-    <div id="civitAiInfoPanel">
-      <h3 class="collapsible">CivitAI Info</h3>
+    <div id="onlineLookupPanel">
+      <h3 class="collapsible">Online Lookup</h3>
       <div class="content summary-table">
         <table>
           <tr><td>Model URL:</td><td><a id="modelUrl" target='_blank' href="#"></a></td></tr>
           <tr><td>Resource Info:</td><td><a id="resourceUrl" target='_blank' href="#"></a></td></tr>
-          <tr><td>Preview:</td><td><img id='previewImage' src='' /></td></tr>
+          <tr><td>Preview:</td><td><span id='previewImage' class="preview-image"></span></td></tr>
         </table>
-        <div><pre id="civitaiDisplay" class="json-data"></div>
+        <div><pre id="onlineLookupData" class="json-data"></div>
       </div>
     </div>
 
@@ -502,7 +738,7 @@
 
   <hr/>
   <div class="footer">
-    LoRA Metadata Viewer v1.6 |
+    LoRA Metadata Viewer <span id="appVersion">v1.7</span> |
     <a href="https://github.com/Xypher7/lora-metadata-viewer" target='_blank'>GitHub</a> |
     <a href="https://civitai.com/models/249721" target='_blank'>CivitAI</a>
   </div>
@@ -513,139 +749,185 @@
     <div class="spinner"></div>
     <div class="progress-container">
       <div class="progress-bar"></div>
-      <div class="progress-text">0%</div> <!-- Text placed as a sibling to the progress-bar -->
+      <div class="progress-text">0%</div>
     </div>
+    <div><button class="abort settings-button" onclick="abort()">Cancel</button></div>
   </div>
 
-  <script src="https://xypher7.github.io/Doro.js/doro.js"></script>
+  <!-- <script src="https://xypher7.github.io/Doro.js/doro.js"></script> -->
   <script src="https://cdn.jsdelivr.net/npm/hash-wasm@4/dist/sha256.umd.min.js"></script>
   <script>
     //#region Gobal Variables
-    let safetensorsFile;
-    let fileMetadata = {};
-    let civitaiMetadata = {};
-    let customMetadata = {};
-    let basemodelMetadata = {};
-    let vaeMetadata = {};
+    const VARIABLES = {
+      safetensorsFile: 'test',
+      fileMetadata: {},
+      civitaiMetadata: {},
+      arcencielMetadata: {},
+      customMetadata: {},
+      basemodelMetadata: {},
+      vaeMetadata: {},
+      abortController: null
+    };
 
-    const defaults = {};
-    defaults.summaryFields = "ss_output_name,ss_sd_model_name,ss_network_module,custom.batch_size,ss_gradient_accumulation_steps,custom.resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_network_args,ss_epoch,ss_num_epochs,ss_steps,ss_max_train_steps,ss_learning_rate,ss_text_encoder_lr,ss_unet_lr,ss_noise_offset,ss_adaptive_noise_scale,ss_min_snr_gamma,sshs_model_hash,custom.training_time,custom.training_start_time,custom.training_end_time,custom.lora_hash,custom.lora_hash_type,custom.civitai_url,ss_dataset_dirs,civitai.trainedWords";
-    defaults.editorFields = "ss_output_name,ss_training_comment";
-    defaults.suggestedPromptCount = 10;
-    defaults.suggestedPromptExcludeFilter = "1girl,1boy,background,standing,portrait,cowboy shot,upper body,looking at viewer,solo,smile,open mouth,closed mouth,blush,nude,nipples,anime,male focus";
-    defaults.suggestedPromptExcludeFilterMethod = 'partial';
-    defaults.suggestedPromptByFolder = "true";
-    defaults.customFields = [
-      {"label":"training_start_time","calc":"new Date(fileMetadata.ss_training_started_at * 1000)"},
-      {"label":"training_end_time","calc":"new Date(fileMetadata.ss_training_finished_at * 1000)"},
-      {"label":"training_time_ms","calc":"Math.abs(customMetadata.training_end_time.getTime() - customMetadata.training_start_time.getTime())"},
-      {"label":"training_h","calc":"Math.floor(customMetadata.training_time_ms / (1000 * 60 * 60))"},
-      {"label":"training_m","calc":"Math.floor((customMetadata.training_time_ms % (1000 * 60 * 60)) / (1000 * 60))"},
-      {"label":"training_s","calc":"Math.floor((customMetadata.training_time_ms % (1000 * 60)) / 1000)"},
-      {"label":"training_time","calc":"customMetadata.training_time_ms ? `${customMetadata.training_h}h ${customMetadata.training_m}m ${customMetadata.training_s}s` : undefined"},
-      {"label":"batch_size","calc":"fileMetadata.ss_total_batch_size || (fileMetadata.ss_datasets && fileMetadata.ss_datasets[0].batch_size_per_device)"},
-      {"label":"resolution","calc":"fileMetadata['modelspec.resolution'] || fileMetadata.ss_resolution || fileMetadata.ss_datasets[0].resolution.toString()"},
-      {"label":"optimizer","calc":"fileMetadata.ss_optimizer && fileMetadata.ss_optimizer.match(/\\b(\\w+)\\b(?=\\s*\\()|\\b(\\w+)\\b$/)?.[0]"},
-      {"label":"civitai_url","calc":"civitaiMetadata?.modelId ? `https://civitai.com/models/${civitaiMetadata.modelId}?modelVersionId=${civitaiMetadata.id}` : null"},
-      {"label":"civitai_link","calc":"customMetadata.civitai_url ? `<a target='_blank' href='${customMetadata.civitai_url}'>${fileMetadata.ss_output_name || safetensorsFile.name}</a>` : fileMetadata.ss_output_name || safetensorsFile.name"},
-      {"label":"preview","calc":"(civitaiMetadata?.images && customMetadata.civitai_url) ? `<a target='_blank' href='${customMetadata.civitai_url}'><img src='${civitaiMetadata.images[0].url}' style='max-width: 100%;'></a>` : ``"},
-      {"label":"base_model_hash","calc":"(fileMetadata.ss_new_sd_model_hash || fileMetadata.ss_sd_model_hash).substring(0,10)"},
-      {"label":"base_model_url","calc":"basemodelMetadata?.modelId ? `<a target='_blank' href='https://civitai.com/models/${basemodelMetadata.modelId}?modelVersionId=${basemodelMetadata.id}'>${fileMetadata.ss_sd_model_name} (${basemodelMetadata.baseModel || civitaiMetadata.baseModel})</a>` : (fileMetadata.ss_sd_model_name.indexOf('/')>0 ? `<a target='_blank' href='https://huggingface.co/${fileMetadata.ss_sd_model_name}'>${fileMetadata.ss_sd_model_name}</a>` : fileMetadata.ss_sd_model_name)"},
-      {"label":"vae_url","calc":"vaeMetadata?.modelId ? `<a target='_blank' href='https://civitai.com/models/${vaeMetadata.modelId}?modelVersionId=${vaeMetadata.id}'>${fileMetadata.ss_vae_name}</a>` : (fileMetadata.ss_vae_name.indexOf('/')>0 ? `<a target='_blank' href='https://huggingface.co/${fileMetadata.ss_vae_name}'>${fileMetadata.ss_vae_name}</a>` : fileMetadata.ss_vae_name)"},
-      {"label":"conv_dim","calc":"parseInt(fileMetadata.ss_network_args.conv_dim) || undefined"},
-      {"label":"conv_alpha","calc":"parseFloat(fileMetadata.ss_network_args.conv_alpha) || undefined"},
-      {"label":"algo","calc":"fileMetadata.ss_network_args.algo"},
-      {"label":"optional_args","calc":"fileMetadata.ss_optimizer.indexOf('(') > 0 ? fileMetadata.ss_optimizer.slice(fileMetadata.ss_optimizer.indexOf('(')+1,-1) : undefined"},
-      {"label":"optimizer_args","calc":"Object.fromEntries(customMetadata.optional_args.replace('[','(').replace(']',')').match(/(\\w+=[^,()]+|\\w+=\\([^()]*\\))/g).map(item => item.split('=')))"},
-      {"label":"weight_decay","calc":"customMetadata.optimizer_args.weight_decay"},
-      {"label":"betas","calc":"customMetadata.optimizer_args.betas"},
-      {"label":"d_coef","calc":"customMetadata.optimizer_args.d_coef"},
-      {"label":"dora","calc":"fileMetadata.ss_network_args.dora_wd.toLowerCase() === 'true'"},
-      {"label":"algo_dora","calc":"customMetadata.algo && customMetadata.dora ? `${customMetadata.algo} (${customMetadata.dora && 'DoRA'})` : customMetadata.algo || customMetadata.dora"},
-      {"label":"training_images","calc":"Object.values(fileMetadata.ss_dataset_dirs).reduce((sum, obj) => sum + obj.img_count, 0)"},
-      {"label":"training_date","calc":"fileMetadata.ss_training_started_at ? customMetadata.training_start_time.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : undefined"},
-      {"label":"gradient_accumulation","calc":"fileMetadata.ss_gradient_checkpointing === 'True' ? fileMetadata.ss_gradient_accumulation_steps : undefined"},
-      {"label":"file_hash","calc":"customMetadata?.lora_hash.toUpperCase() + (customMetadata?.lora_hash_type?` (${customMetadata?.lora_hash_type})`:'')"},
-      {"label":"creator","calc":"civitaiMetadata?.model ? `<a href='https://civitai.com/user/${civitaiMetadata?.model?.creator.username}' target='_blank'><span>${civitaiMetadata?.model?.creator.username}</span><img alt='' src='${civitaiMetadata?.model?.creator.image}' style='border-radius: 50%; float:right; width:80px; margin-top:-20px;'></img></a>`: undefined"},
-      {"label":"civitai_name","calc":"customMetadata.civitai_url ? `<a target='_blank' href='${customMetadata.civitai_url}'>${civitaiMetadata?.model?.name}</a>` : undefined"},
-    ];
+    const DEFAULTS = {
+      summaryFields: "ss_output_name,ss_sd_model_name,ss_network_module,custom.batch_size,ss_gradient_accumulation_steps,custom.resolution,ss_optimizer,ss_lr_scheduler,ss_network_module,ss_clip_skip,ss_network_dim,ss_network_alpha,ss_network_args,ss_epoch,ss_num_epochs,ss_steps,ss_max_train_steps,ss_learning_rate,ss_text_encoder_lr,ss_unet_lr,ss_noise_offset,ss_adaptive_noise_scale,ss_min_snr_gamma,sshs_model_hash,custom.training_time,custom.training_start_time,custom.training_end_time,custom.lora_hash,custom.lora_hash_type,custom.civitai_url,ss_dataset_dirs,civitai.trainedWords",
+      editorFields: "ss_output_name,ss_training_comment",
+      suggestedPromptCount: 10,
+      suggestedPromptExcludeFilter: "1girl,1boy,background,standing,portrait,cowboy shot,upper body,looking at viewer,solo,smile,open mouth,closed mouth,blush,nude,nipples,anime,male focus",
+      suggestedPromptExcludeFilterMethod: 'partial',
+      suggestedPromptByFolder: "true",
+      primaryLookup: 'civ',
+      proxyUrl: "https://corsproxy.io/?url=",
+      customFields: [
+        {"label":"training_start_time","calc":"new Date(fileMetadata.ss_training_started_at * 1000)"},
+        {"label":"training_end_time","calc":"new Date(fileMetadata.ss_training_finished_at * 1000)"},
+        {"label":"training_time_ms","calc":"Math.abs(customMetadata.training_end_time.getTime() - customMetadata.training_start_time.getTime())"},
+        {"label":"training_h","calc":"Math.floor(customMetadata.training_time_ms / (1000 * 60 * 60))"},
+        {"label":"training_m","calc":"Math.floor((customMetadata.training_time_ms % (1000 * 60 * 60)) / (1000 * 60))"},
+        {"label":"training_s","calc":"Math.floor((customMetadata.training_time_ms % (1000 * 60)) / 1000)"},
+        {"label":"training_time","calc":"customMetadata.training_time_ms ? `${customMetadata.training_h}h ${customMetadata.training_m}m ${customMetadata.training_s}s` : undefined"},
+        {"label":"batch_size","calc":"fileMetadata.ss_total_batch_size || (fileMetadata.ss_datasets && fileMetadata.ss_datasets[0].batch_size_per_device)"},
+        {"label":"resolution","calc":"fileMetadata['modelspec.resolution'] || fileMetadata.ss_resolution || fileMetadata.ss_datasets[0].resolution.toString()"},
+        {"label":"optimizer","calc":"fileMetadata.ss_optimizer && fileMetadata.ss_optimizer.match(/\\b(\\w+)\\b(?=\\s*\\()|\\b(\\w+)\\b$/)?.[0]"},
+        {"label":"base_model_hash","calc":"(fileMetadata.ss_new_sd_model_hash || fileMetadata.ss_sd_model_hash).substring(0,10)"},
+        {"label":"conv_dim","calc":"parseInt(fileMetadata.ss_network_args.conv_dim) || undefined"},
+        {"label":"conv_alpha","calc":"parseFloat(fileMetadata.ss_network_args.conv_alpha) || undefined"},
+        {"label":"algo","calc":"fileMetadata.ss_network_args.algo"},
+        {"label":"optional_args","calc":"fileMetadata.ss_optimizer.indexOf('(') > 0 ? fileMetadata.ss_optimizer.slice(fileMetadata.ss_optimizer.indexOf('(')+1,-1) : undefined"},
+        {"label":"optimizer_args","calc":"Object.fromEntries(customMetadata.optional_args.replace('[','(').replace(']',')').match(/(\\w+=[^,()]+|\\w+=\\([^()]*\\))/g).map(item => item.split('=')))"},
+        {"label":"weight_decay","calc":"customMetadata.optimizer_args.weight_decay"},
+        {"label":"betas","calc":"customMetadata.optimizer_args.betas"},
+        {"label":"d_coef","calc":"customMetadata.optimizer_args.d_coef"},
+        {"label":"dora","calc":"fileMetadata.ss_network_args.dora_wd.toLowerCase() === 'true'"},
+        {"label":"algo_dora","calc":"customMetadata.algo && customMetadata.dora ? `${customMetadata.algo} (${customMetadata.dora && 'DoRA'})` : customMetadata.algo || customMetadata.dora"},
+        {"label":"training_images","calc":"Object.values(fileMetadata.ss_dataset_dirs).reduce((sum, obj) => sum + obj.img_count, 0)"},
+        {"label":"training_date","calc":"fileMetadata.ss_training_started_at ? customMetadata.training_start_time.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : undefined"},
+        {"label":"gradient_accumulation","calc":"fileMetadata.ss_gradient_checkpointing === 'True' ? fileMetadata.ss_gradient_accumulation_steps : undefined"},
+        {"label":"civitai_url","calc":"civitaiMetadata?.modelId ? `https://civitai.com/models/${civitaiMetadata.modelId}?modelVersionId=${civitaiMetadata.id}` : null"},
+        {"label":"civitai_link","calc":"customMetadata.civitai_url ? `<a target='_blank' href='${customMetadata.civitai_url}'>${fileMetadata.ss_output_name || safetensorsFile.name}</a>` : fileMetadata.ss_output_name || safetensorsFile.name"},
+        {"label":"civitai_preview","calc":"(civitaiMetadata?.images && customMetadata.civitai_url) ? (() => { const mediaUrl = civitaiMetadata.images[0]?.url || ''; const isVideo = /\\.(mp4|webm)$/i.test(mediaUrl); const tag = isVideo ? `<video src='${mediaUrl}' style='max-width: 100%;' controls autoplay muted loop></video>` : `<img src='${mediaUrl}' style='max-width: 100%;'>`; return `<a target='_blank' href='${customMetadata.civitai_url}'>${tag}</a>`; })() : ``"},
+        {"label":"civitai_creator","calc":"civitaiMetadata?.model ? `<a href='https://civitai.com/user/${civitaiMetadata?.model?.creator.username}' target='_blank'><span>${civitaiMetadata?.model?.creator.username}</span><img alt='' src='${civitaiMetadata?.model?.creator.image}' style='border-radius: 50%; float:right; width:80px; margin-top:-20px;'></img></a>`: undefined"},
+        {"label":"civitai_name","calc":"customMetadata.civitai_url ? `<a target='_blank' href='${customMetadata.civitai_url}'>${civitaiMetadata?.model?.name}</a>` : undefined"},
+        {"label":"base_model_url","calc":"basemodelMetadata?.modelId ? `<a target='_blank' href='https://civitai.com/models/${basemodelMetadata.modelId}?modelVersionId=${basemodelMetadata.id}'>${fileMetadata.ss_sd_model_name} (${basemodelMetadata.baseModel || civitaiMetadata.baseModel})</a>` : (fileMetadata.ss_sd_model_name.indexOf('/')>0 ? `<a target='_blank' href='https://huggingface.co/${fileMetadata.ss_sd_model_name}'>${fileMetadata.ss_sd_model_name}</a>` : fileMetadata.ss_sd_model_name)"},
+        {"label":"vae_url","calc":"vaeMetadata?.modelId ? `<a target='_blank' href='https://civitai.com/models/${vaeMetadata.modelId}?modelVersionId=${vaeMetadata.id}'>${fileMetadata.ss_vae_name}</a>` : (fileMetadata.ss_vae_name.indexOf('/')>0 ? `<a target='_blank' href='https://huggingface.co/${fileMetadata.ss_vae_name}'>${fileMetadata.ss_vae_name}</a>` : fileMetadata.ss_vae_name)"},    
+        {"label":"arcenciel_url","calc":"arcencielMetadata?.id ? `https://arcenciel.io/models/${arcencielMetadata.id}` : null"},
+        {"label":"arcenciel_link","calc":"customMetadata.arcenciel_url ? `<a target='_blank' href='${customMetadata.arcenciel_url}'>${fileMetadata.ss_output_name || safetensorsFile.name}</a>` : fileMetadata.ss_output_name || safetensorsFile.name"},
+        {"label":"arcenciel_version_index","calc":"(() => { if (Number.isInteger(arcencielMetadata?.selectedVersionIndex)) return arcencielMetadata.selectedVersionIndex; const versions = arcencielMetadata?.versions || []; if (versions.length <= 1) return 0; const sha256 = customMetadata.sha256 || VARIABLES?.customMetadata?.sha256; const sha256Auto = customMetadata.sha256_autov3 || VARIABLES?.customMetadata?.sha256_autov3; const idx = versions.findIndex(version => (sha256 && version?.sha256 === sha256) || (sha256Auto && version?.sha256webui === sha256Auto)); return idx !== -1 ? idx : 0; })()"},
+        {"label":"arcenciel_selected_version","calc":"arcencielMetadata?.selectedVersion ?? arcencielMetadata?.versions?.[customMetadata.arcenciel_version_index || 0]"},
+        {"label":"arcenciel_preview","calc":"(customMetadata.arcenciel_selected_version && customMetadata.arcenciel_url) ? (() => { const version = customMetadata.arcenciel_selected_version; const filePath = version?.images?.[0]?.filePath || version?.videos?.[0]?.filePath || ''; if (!filePath) return ''; const mediaUrl = `https://arcenciel.io/uploads/${filePath}`; const isVideo = /\\.(mp4|webm)$/i.test(filePath); const tag = isVideo ? `<video src='${mediaUrl}' style='max-width: 100%;' controls autoplay muted loop></video>` : `<img src='${mediaUrl}' style='max-width: 100%;'>`; return `<a target='_blank' href='${customMetadata.arcenciel_url}'>${tag}</a>`; })() : ``"},
+        {"label":"arcenciel_creator","calc":"arcencielMetadata?.uploader ? `<a href='https://arcenciel.io/users/${arcencielMetadata?.uploader?.id}' target='_blank'><span>${arcencielMetadata?.uploader?.username}</span><img alt='' src='https://arcenciel.io/uploads/${arcencielMetadata?.uploader?.profilePicture}' style='border-radius: 50%; float:right; width:80px; margin-top:-20px;'></img></a>`: undefined"},
+        {"label":"arcenciel_name","calc":"customMetadata.arcenciel_url ? `<a target='_blank' href='${customMetadata.arcenciel_url}'>${arcencielMetadata?.title}</a>` : undefined"},
+        {"label":"title","calc":"customMetadata?.civitai_name || customMetadata?.arcenciel_name"},
+        {"label":"link","calc":"customMetadata?.civitai_link || customMetadata?.arcenciel_link"},
+        {"label":"preview","calc":"customMetadata?.civitai_preview || customMetadata?.arcenciel_preview"},
+        {"label":"creator","calc":"customMetadata?.civitai_creator || customMetadata?.arcenciel_creator"},
+        {"label":"trigger_words","calc":"civitaiMetadata?.trainedWords || customMetadata.arcenciel_selected_version?.activationTags"},
+        {"label":"lookup_source","calc":"civitaiMetadata?.modelId ? 'CivitAI' : (arcencielMetadata?.id ? 'Arc en Ciel' : '')"},
+      ],
+    };
     
-    const dropArea = document.getElementById('dropArea');
-    const metadataDisplay = document.getElementById('metadataDisplay');
-    const metadataEditor = document.getElementById('metadataEditor');
-    const metadataEditorSimple = document.getElementById('metadataEditorSimple');
-    const summary = document.getElementById('summary'); 
-    const summaryTable = document.getElementById('summaryTable'); 
-    const summaryGrid = document.getElementById('summaryGrid'); 
-    const summaryGridTemplate = document.getElementById('summaryGridTemplate'); 
-    const summaryCustom = document.getElementById('summaryCustom'); 
-    const modelUrl = document.getElementById('modelUrl');
-    const resourceUrl = document.getElementById('resourceUrl');
-    const civitaiDisplay = document.getElementById('civitaiDisplay');
-    const previewImage = document.getElementById('previewImage');
-    const keywordDetails = document.getElementById('keywordDetails');
-    const suggestedPromptDetails = document.getElementById('suggestedPromptDetails');
-    const notificationPanel = document.getElementById('notificationPanel');
-    const editorNotificationPanel = document.getElementById('editorNotificationPanel');
-    const editorHeader = document.getElementById('editorHeader');
-    
-    const summaryFields = document.getElementById('summaryFields');
-    const editorFields = document.getElementById('editorFields');
-    const editorFormat = document.getElementById('editorFormat');
-    const showUndefinedSummaryValues = document.getElementById('showUndefinedSummaryValues');
-    const customFields = document.getElementById('customFields');
-    const customTemplate = document.getElementById('customTemplate');
-    const enableSummary = document.getElementById('enableSummary');
-    const enableCivitAiInfo = document.getElementById('enableCivitAiInfo');
-    const enableTagFrequency = document.getElementById('enableTagFrequency');
-    const enableSuggestedPrompt = document.getElementById('enableSuggestedPrompt');
-    const tagFrequencyCount = document.getElementById('tagFrequencyCount');
-    const tagFrequencyFilter = document.getElementById('tagFrequencyFilter');
-    const tagFrequencyFilterVld = document.getElementById('tagFrequencyFilterVld');
-    const tagFrequencyFilterMethod = document.getElementById('tagFrequencyFilterMethod');
-    const tagByFolder = document.getElementById('tagByFolder');
-    const tagExcludeFilter = document.getElementById('tagExcludeFilter');
-    const tagExcludeFilterMethod = document.getElementById('tagExcludeFilterMethod');
-    const tagExcludeFilterVld = document.getElementById('tagExcludeFilterVld');
-    const suggestedPromptCount = document.getElementById('suggestedPromptCount');
-    const suggestedPromptFilter = document.getElementById('suggestedPromptFilter');
-    const suggestedPromptFilterVld = document.getElementById('suggestedPromptFilterVld');
-    const suggestedPromptFilterMethod = document.getElementById('suggestedPromptFilterMethod');
-    const suggestedPromptByFolder = document.getElementById('suggestedPromptByFolder');
-    const suggestedPromptExcludeFilter = document.getElementById('suggestedPromptExcludeFilter');
-    const suggestedPromptExcludeFilterMethod = document.getElementById('suggestedPromptExcludeFilterMethod');
-    const suggestedPromptExcludeFilterVld = document.getElementById('suggestedPromptExcludeFilterVld');
+    const UI = {
+      appVersion: $('appVersion'),
+      favicon: $('favicon'),
+      dropArea: $('dropArea'),
+      metadataDisplay: $('metadataDisplay'),
+      metadataEditor: $('metadataEditor'),
+      metadataEditorSimple: $('metadataEditorSimple'),
+      summary: $('summary'),
+      summaryTable: $('summaryTable'),
+      summaryGrid: $('summaryGrid'),
+      summaryGridTemplate: $('summaryGridTemplate'),
+      summaryCustom: $('summaryCustom'),
+      modelUrl: $('modelUrl'),
+      resourceUrl: $('resourceUrl'),
+      onlineLookupData: $('onlineLookupData'),
+      previewImage: $('previewImage'),
+      keywordDetails: $('keywordDetails'),
+      suggestedPromptDetails: $('suggestedPromptDetails'),
+      notificationPanel: $('notificationPanel'),
+      editorNotificationPanel: $('editorNotificationPanel'),
+      editorHeader: $('editorHeader'),
 
-    const pillboxTemplate = document.getElementById('pillboxTemplate');
-    const enableMetadata = document.getElementById('enableMetadata');
-    const enableMetadataEditor = document.getElementById('enableMetadataEditor');
-    const darkMode = document.getElementById('darkMode');
-    const clearSettingsBtn = document.getElementById('clearSettingsBtn');
-    const exportSettingsBtn = document.getElementById('exportSettingsBtn');
-    const importSettingsBtn = document.getElementById('importSettingsBtn');
-    const importSettingsFile = document.getElementById('importSettingsFile');
-    const importSettingsFileName = document.getElementById('importSettingsFileName');
+      summaryFields: $('summaryFields'),
+      editorFields: $('editorFields'),
+      editorFormat: $('editorFormat'),
+      showUndefinedSummaryValues: $('showUndefinedSummaryValues'),
+      customFields: $('customFields'),
+      customTemplate: $('customTemplate'),
+      enableSummary: $('enableSummary'),
+      enableOnlineLookup: $('enableOnlineLookup'),
+      primaryLookup: $('primaryLookup'),
+      secondaryLookup: $('secondaryLookup'),
+      enableTagFrequency: $('enableTagFrequency'),
+      enableSuggestedPrompt: $('enableSuggestedPrompt'),
+      tagFrequencyCount: $('tagFrequencyCount'),
+      tagFrequencyFilter: $('tagFrequencyFilter'),
+      tagFrequencyFilterVld: $('tagFrequencyFilterVld'),
+      tagFrequencyFilterMethod: $('tagFrequencyFilterMethod'),
+      tagByFolder: $('tagByFolder'),
+      tagExcludeFilter: $('tagExcludeFilter'),
+      tagExcludeFilterMethod: $('tagExcludeFilterMethod'),
+      tagExcludeFilterVld: $('tagExcludeFilterVld'),
+      suggestedPromptCount: $('suggestedPromptCount'),
+      suggestedPromptFilter: $('suggestedPromptFilter'),
+      suggestedPromptFilterVld: $('suggestedPromptFilterVld'),
+      suggestedPromptFilterMethod: $('suggestedPromptFilterMethod'),
+      suggestedPromptByFolder: $('suggestedPromptByFolder'),
+      suggestedPromptExcludeFilter: $('suggestedPromptExcludeFilter'),
+      suggestedPromptExcludeFilterMethod: $('suggestedPromptExcludeFilterMethod'),
+      suggestedPromptExcludeFilterVld: $('suggestedPromptExcludeFilterVld'),
 
-    const loading = document.getElementById('loading');
-    const loadingMessage = document.querySelector('.loading-message');
-    const progressBar = document.querySelector('.progress-bar');
-    const progressText = document.querySelector('.progress-text');
+      enableMetadata: $('enableMetadata'),
+      enableMetadataEditor: $('enableMetadataEditor'),
+      enableUpdateCheck: $('enableUpdateCheck'),
+      themeSelect: $('themeSelect'),
+      themeColorSelect: $('themeColorSelect'),
+      themeColorPicker: $('themeColorPicker'),
+      themeBgColorSelect: $('themeBgColorSelect'),
+      themeBgColorPicker: $('themeBgColorPicker'),
+      themeInputColorSelect: $('themeInputColorSelect'),
+      themeInputColorPicker: $('themeInputColorPicker'),
+      themeFont: $('themeFont'),
+      themeFontColorSelect: $('themeFontColorSelect'),
+      themeFontColorPicker: $('themeFontColorPicker'),
+      proxyUrl: $('proxyUrl'),
+      proxyScript: $('proxyScript'),
+      clearSettingsBtn: $('clearSettingsBtn'),
+      exportSettingsBtn: $('exportSettingsBtn'),
+      importSettingsBtn: $('importSettingsBtn'),
+      importSettingsFile: $('importSettingsFile'),
+      importSettingsFileName: $('importSettingsFileName'),
+
+      loading: $('loading'),
+      loadingMessage: document.querySelector('.loading-message'),
+      progressBar: document.querySelector('.progress-bar'),
+      progressText: document.querySelector('.progress-text'),
+      abortBtn: document.querySelector('.abort')
+    };
+
+
     //#endregion Global Variables
     //#region Initialization 
     init();
 
     function init(){   
+      setGlobalVariables(VARIABLES);
+      updateTheme();
       initDropArea();
       initSelectToggle();
       initSettingsStorage();
       initCollapsible();
       initTabs();
-      [tagFrequencyCount, tagFrequencyFilter, tagExcludeFilter, tagExcludeFilterMethod, tagFrequencyFilterMethod].forEach(e=>{ e.addEventListener('change', updateTagFrequency); });
-      tagByFolder.addEventListener('click', updateTagFrequency);
-      [suggestedPromptCount, suggestedPromptFilter, suggestedPromptExcludeFilter, suggestedPromptExcludeFilterMethod, suggestedPromptFilterMethod].forEach(e=>{ e.addEventListener('change', ()=>{updateTagFrequency(null,true);}); });
-      suggestedPromptByFolder.addEventListener('click', ()=>{updateTagFrequency(null,true);});
-      editorFormat.addEventListener('change', updateEditorFields);
-      if(window.matchMedia && !window.matchMedia('(prefers-color-scheme: dark)').matches) darkMode.checked = !darkMode.checked;
+      [UI.themeSelect, UI.themeColorSelect, UI.themeBgColorSelect, UI.themeInputColorSelect, UI.themeFont, UI.themeFontColorSelect].forEach(e=>{ e.addEventListener('change', updateTheme); });
+      [UI.themeColorPicker, UI.themeBgColorPicker, UI.themeInputColorPicker, UI.themeFontColorPicker].forEach(e=>{ e.addEventListener('input', updateTheme); });
+      [UI.tagFrequencyCount, UI.tagFrequencyFilter, UI.tagExcludeFilter, UI.tagExcludeFilterMethod, UI.tagFrequencyFilterMethod].forEach(e=>{ e.addEventListener('change', updateTagFrequency); });
+      UI.tagByFolder.addEventListener('click', updateTagFrequency);
+      [UI.suggestedPromptCount, UI.suggestedPromptFilter, UI.suggestedPromptExcludeFilter, UI.suggestedPromptExcludeFilterMethod, UI.suggestedPromptFilterMethod].forEach(e=>{ e.addEventListener('change', ()=>{updateTagFrequency(null,true);}); });
+      UI.suggestedPromptByFolder.addEventListener('click', ()=>{updateTagFrequency(null,true);});
+      UI.editorFormat.addEventListener('change', updateEditorFields);      
+      updateProxyScript();
+      document.head.insertAdjacentHTML('beforeend', `<style>.doro-theme *{cursor:url("${UI.favicon.href}") 4 4,auto;}</style>`);
+      window.addEventListener("load", () => document.body.appendChild(Object.assign(document.createElement("script"), {src:"https://xypher7.github.io/Doro.js/doro.js"})));
     }
 
     function initSelectToggle() {
@@ -713,7 +995,7 @@
         collapsible.addEventListener('click', function () {
           this.classList.toggle('active');
           const targetSelector = this.getAttribute('data-target');
-          const content = !targetSelector ? this.nextElementSibling : document.getElementById(targetSelector);
+          const content = !targetSelector ? this.nextElementSibling : $(targetSelector);
           if (content.style.display === 'block') {
             content.style.display = 'none';
           } else {
@@ -722,7 +1004,7 @@
         });
         const targetSelector = collapsible.getAttribute('data-target');
         if(!!targetSelector) {
-          const content = document.getElementById(targetSelector);
+          const content = $(targetSelector);
           content.classList.add('content');
         }
         if (collapsible.classList.contains('expanded')) collapsible.click();
@@ -730,7 +1012,7 @@
 
       const toggleDisplay = e => {      
         const targetId = e.getAttribute('data-display');
-        const targetElement = document.getElementById(targetId);
+        const targetElement = $(targetId);
         if (targetElement) {
           targetElement.style.display = e.checked ? 'block' : 'none';
         }
@@ -763,14 +1045,15 @@
 
     async function handleFile(file) {
       clearAll();
-      safetensorsFile = file;
+      VARIABLES.safetensorsFile = file;
       if(file.name.endsWith('.gguf')) {
-        updateCivitAiInfo(file);
+        calculateFileHashes(file);
+        updateOnlineLookupInfo();
         setCustomMetadata();
         return;
       }
       if (!file.name.endsWith('.safetensors')) {
-        notificationPanel.innerHTML = 'Please drop a valid .safetensors file.';
+        showToast('Please drop a valid .safetensors file.', null, 'error');
         return;
       }
       try {
@@ -782,7 +1065,7 @@
         let formattedMetadata = header['__metadata__'] || ''; 
         let metadata = {};
         if (!formattedMetadata) {
-          notificationPanel.innerHTML = 'No metadata found';
+          showToast('No metadata found', null, 'warning');
         } else {
           for (const key in formattedMetadata) {
             if (typeof formattedMetadata[key] === 'string') {
@@ -796,24 +1079,24 @@
             }
           }
         }
-        fileMetadata = metadata;
+        VARIABLES.fileMetadata = metadata;
         updateMetadataEditor(formattedMetadata);
         setCustomMetadata();
         updateMetadata(metadata);
         updateTagFrequency(metadata);
         updateTagFrequency(metadata,true);
-        updateSummary(metadata, civitaiMetadata, customMetadata);
-        updateCivitAiInfo(file);
+        updateSummary(metadata);
+        await calculateFileHashes(file);
+        updateOnlineLookupInfo();
       } catch (error) {
-        notificationPanel.innerHTML += 'Error parsing metadata.<br>';
+        showToast(`Error parsing metadata:<br>${error}`, null, 'error');
         console.error('Error reading file:', error);
       }
     }
 
-
     function initSettingsStorage(){
       // Unique prefix for the app
-      const appPrefix = 'x_lmv.';
+      const appPrefix = `lmv.r2.`;
 
       // Retrieve values from local storage and set default values if not present
       const loadSettings = () => {
@@ -821,8 +1104,8 @@
               const id = element.id ? appPrefix + element.id : null;
               if (id) {
                   let value = localStorage.getItem(id);
-                  if (value === null && defaults[element.id] !== undefined) {
-                      value = typeof defaults[element.id] === 'object' ? JSON.stringify(defaults[element.id]) : defaults[element.id];
+                  if (value === null && DEFAULTS[element.id] !== undefined) {
+                      value = typeof DEFAULTS[element.id] === 'object' ? JSON.stringify(DEFAULTS[element.id]) : DEFAULTS[element.id];
                       localStorage.setItem(id, value); // Store default value in local storage
                   }
                   if (value !== null) {
@@ -831,7 +1114,7 @@
                       } else {
                           element.value = value;
                           if(element.getAttribute('data-editable-list') !== null){
-                              const listElem = document.getElementById(element.getAttribute('data-editable-list'));
+                              const listElem = $(element.getAttribute('data-editable-list'));
                               JSON.parse(value).forEach(obj => {
                                   addListItem(element.getAttribute('data-editable-list'), listElem.getAttribute('data-list-template'), obj);
                               })
@@ -843,7 +1126,9 @@
                   }
               }
           });
-          !darkMode.checked && toggleDarkMode();
+          updateTheme();
+          UI.enableUpdateCheck.checked && checkForUpdates();
+          if(location.protocol === 'http:') UI.proxyUrl.value = `${location.protocol}//${location.hostname}${location.port ? `:${location.port}` : ''}/?url=`;
       };
 
       // Save values to local storage
@@ -854,7 +1139,7 @@
                   let value = element.type === 'checkbox' ? element.checked : element.value;
                   if(element.getAttribute('data-editable-list') !== null){
                       const objectArray = [];
-                      const listElem = document.getElementById(element.getAttribute('data-editable-list'));
+                      const listElem = $(element.getAttribute('data-editable-list'));
                       listElem.querySelectorAll('.list-item').forEach(listItem => {
                           const itemObject = {};
                           listItem.querySelectorAll('[name]').forEach(inputField => {
@@ -901,22 +1186,22 @@
           });
       });
 
-      exportSettingsBtn.addEventListener('click', exportLocalStorage);
+      UI.exportSettingsBtn.addEventListener('click', exportLocalStorage);
 
-      importSettingsBtn.addEventListener('click', () => {
-        if (importSettingsFile.files.length > 0) {
-          importLocalStorage(importSettingsFile.files[0]);
+      UI.importSettingsBtn.addEventListener('click', () => {
+        if (UI.importSettingsFile.files.length > 0) {
+          importLocalStorage(UI.importSettingsFile.files[0]);
           location.reload();
         }else alert('Please select a file to import.');
       });
 
-      importSettingsFile.addEventListener('change', function() {
-          if (importSettingsFile.files.length > 0) importSettingsFileName.textContent = importSettingsFile.files[0].name;
-          else importSettingsFileName.textContent = 'No file chosen';
+      UI.importSettingsFile.addEventListener('change', function() {
+          if (UI.importSettingsFile.files.length > 0) UI.importSettingsFileName.textContent = UI.importSettingsFile.files[0].name;
+          else UI.importSettingsFileName.textContent = 'No file chosen';
       });
 
       // Clear local storage and reset defaults
-      clearSettingsBtn.addEventListener('click', () => {
+      UI.clearSettingsBtn.addEventListener('click', () => {
         for (let i = localStorage.length - 1; i >= 0; i--) {
           const key = localStorage.key(i);
           if (key.startsWith(appPrefix)) 
@@ -926,110 +1211,170 @@
       });
     }
 
+    function abort(){
+      if (VARIABLES.abortController) VARIABLES.abortController.abort();
+    }
+
+    function setGlobalVariables(variable){
+      for (const key in variable) {
+        Object.defineProperty(window, key, {
+          get() { return variable[key]; },
+          set(value) { variable[key] = value; },
+          configurable: true
+        });
+      }
+    }
     //#endregion Initialization 
     //#region UI Rendering
     function clearAll(){
-      notificationPanel.innerHTML = '';
-      editorNotificationPanel.innerHTML = '';
-      summary.innerHTML = '';
-      summaryTable.innerHTML = '';
-      summaryGrid.innerHTML = '';
-      summaryCustom.innerHTML = '';
-      modelUrl.href = '#';
-      modelUrl.innerHTML = '';
-      resourceUrl.href = '#';
-      resourceUrl.innerHTML = '';
-      previewImage.src = '';
-      civitaiDisplay.innerHTML = '';
-      keywordDetails.innerHTML = '';
-      metadataDisplay.innerHTML = '';
-      metadataEditor.value = '';
-      editorHeader.style.display = "none";
+      UI.notificationPanel.innerHTML = '';
+      UI.editorNotificationPanel.innerHTML = '';
+      UI.summary.innerHTML = '';
+      UI.summaryTable.innerHTML = '';
+      UI.summaryGrid.innerHTML = '';
+      UI.summaryCustom.innerHTML = '';
+      UI.modelUrl.href = '#';
+      UI.modelUrl.innerHTML = '';
+      UI.resourceUrl.href = '#';
+      UI.resourceUrl.innerHTML = '';
+      UI.previewImage.innerHTML = '';
+      UI.onlineLookupData.innerHTML = '';
+      UI.keywordDetails.innerHTML = '';
+      UI.metadataDisplay.innerHTML = '';
+      UI.metadataEditor.value = '';
+      UI.editorHeader.style.display = "none";
 
-      fileMetadata = {};
-      civitaiMetadata = {};
-      customMetadata = {};
-      basemodelMetadata = {};
-      vaeMetadata = {};
-      safetensorsFile = null;
+      VARIABLES.fileMetadata = {};
+      VARIABLES.civitaiMetadata = {};
+      VARIABLES.arcencielMetadata = {};
+      VARIABLES.customMetadata = {};
+      VARIABLES.basemodelMetadata = {};
+      VARIABLES.vaeMetadata = {};
+      VARIABLES.safetensorsFile = null;
     }
 
-    function showLoading(message = null) {
-      loading.style.display = 'block';
+    function showLoading(message = null, allowCancel = false) {
+      if(allowCancel) {
+        VARIABLES.abortController = new AbortController();
+        UI.abortBtn.style.display = 'inline';
+      }
+      UI.loading.style.display = 'block';
       updateLoading(message, 0);
     }
 
     // Function to hide the loading animation
     function hideLoading() {
-      loading.style.display = 'none';
+      UI.loading.style.display = 'none';
+      UI.abortBtn.style.display = 'none';
     }
 
     function updateLoading(message, progress){
-      if(message !== null) loadingMessage.innerHTML = message;
+      updateLoadingMessage(message);
       updateProgress(progress);
+    }
+
+    function updateLoadingMessage(message){
+      if(message !== null) UI.loadingMessage.innerHTML = message;
     }
 
     function updateProgress(progress){
       if(progress || progress === 0){
-        progressBar.style.width = `${progress}%`;
-        progressText.textContent = `${progress}%`;
+        UI.progressBar.style.width = `${progress}%`;
+        UI.progressText.textContent = `${progress}%`;
       }
     }
 
     function updateMetadata(metadata) {
-      if(enableMetadata.checked) formatAndColorizeJSON(metadata, metadataDisplay);    
+      if(UI.enableMetadata.checked) formatAndColorizeJSON(metadata, UI.metadataDisplay);    
     }
 
     function updateMetadataEditor(metadata) {
-      if(enableMetadataEditor.checked) {
-        metadataEditor.value = metadata? JSON.stringify(metadata, null, 2): '';
-        editorHeader.style.display = "";
+      if(UI.enableMetadataEditor.checked) {
+        UI.metadataEditor.value = metadata? JSON.stringify(metadata, null, 2): '';
+        UI.editorHeader.style.display = "";
         updateEditorFields();
       }
     }
 
-    function updateSummary(metadata, civitaiMetadata, customMetadata) {     
-      if(enableSummary.checked){
-        const summaryJson = fetchMetadataValues(summaryFields.value);
+    function updateSummary(metadata) {     
+      if(UI.enableSummary.checked){
+        const summaryJson = fetchMetadataValues(UI.summaryFields.value);
         renderSummary(summaryJson);
-        const spContainer = document.getElementById('dashboardSuggestedPrompt');
-        if(spContainer && customMetadata.suggested_prompt) renderSuggestedPrompt(customMetadata.suggested_prompt, spContainer);
-        const twContainer = document.getElementById('triggerWordsPrompt');
-        if(twContainer && civitaiMetadata?.trainedWords) renderSuggestedPrompt(civitaiMetadata.trainedWords, twContainer);
+        const spContainer = $('dashboardSuggestedPrompt');
+        if(spContainer && VARIABLES.customMetadata.suggested_prompt) renderSuggestedPrompt(VARIABLES.customMetadata.suggested_prompt, spContainer);
+        const twContainer = $('triggerWordsPrompt');
+        if(twContainer && VARIABLES.civitaiMetadata?.trainedWords) renderSuggestedPrompt(VARIABLES.civitaiMetadata.trainedWords, twContainer);
+        else if(twContainer && VARIABLES.arcencielMetadata?.versions?.[0].activationTags) renderSuggestedPrompt(VARIABLES.arcencielMetadata.versions[0].activationTags, twContainer);
       }
     }
 
-    async function updateCivitAiInfo(file, hash = null){
-      if (enableCivitAiInfo.checked) {
-        const data = await getCivitAiData(file);
-        if(data?.hash) customMetadata.lora_hash = data.hash;
-        if(data?.hashType) customMetadata.lora_hash_type = data.hashType;
-        if(data?.autov2) customMetadata.autov2 = data.autov2;
-        if(data?.autov3) customMetadata.autov3 = data.autov3;
-        if (data?.data) {
-          modelUrl.href = data.modelUrl;
-          modelUrl.innerHTML = data.modelUrl;
-          resourceUrl.href = data.resourceUrl;
-          resourceUrl.innerHTML = data.resourceUrl;
-          formatAndColorizeJSON(data.data, civitaiDisplay);
-          previewImage.src = data.data.images[0].url;
-          civitaiMetadata = data.data;
-          customMetadata.civiai_model_link = modelUrl.cloneNode(true).outerHTML;
-          customMetadata.civiai_resource_link = resourceUrl.cloneNode(true).outerHTML;
-        }
-        const baseModelHash = fileMetadata.ss_new_sd_model_hash || fileMetadata.ss_sd_model_hash;
-        if(baseModelHash){
-          const baseModelInfo = await getCivitAiData(null, baseModelHash);
-          if(baseModelInfo && baseModelInfo.data) basemodelMetadata = baseModelInfo.data;
-        }
-        const vaeHash = fileMetadata.ss_new_vae_hash || fileMetadata.ss_vae_hash;
-        if(vaeHash){
-          const vaeInfo = await getCivitAiData(null, vaeHash);
-          if(vaeInfo && vaeInfo.data) vaeMetadata = vaeInfo.data;
-        }
-        if (data?.data || baseModelHash || vaeHash) setCustomMetadata();
-        updateSummary(fileMetadata, civitaiMetadata, customMetadata);
+    async function updateOnlineLookupInfo(){
+      if(!UI.primaryLookup.value) return;
+      let data;  
+      updateLoading("Model lookup...", 75);
+      switch (UI.primaryLookup.value) {
+        case 'civ':
+          data = await setCivitAIData();
+          break;
+        case 'aec':
+          data = await setArcEnCielData();
+          break;
       }
+      if(!data?.data && UI.secondaryLookup.value && UI.primaryLookup.value !== UI.secondaryLookup.value){ 
+        switch (UI.secondaryLookup.value) {
+          case 'civ':
+            data = await setCivitAIData();
+            break;
+          case 'aec':
+            data = await setArcEnCielData();
+            break;
+        }
+      }
+      const baseModelHash = VARIABLES.fileMetadata.ss_new_sd_model_hash || VARIABLES.fileMetadata.ss_sd_model_hash;
+      if(baseModelHash){
+        updateLoading("Base model lookup...", 80);
+        let baseModelInfo = await getModelDataByHash(baseModelHash);
+        if(baseModelInfo && baseModelInfo.data) VARIABLES.basemodelMetadata = baseModelInfo.data;
+      }
+      const vaeHash = VARIABLES.fileMetadata.ss_new_vae_hash || VARIABLES.fileMetadata.ss_vae_hash;
+      if(vaeHash){
+        updateLoading("VAE lookup...", 90);
+        let vaeInfo = await getModelDataByHash(vaeHash);
+        if(vaeInfo && vaeInfo.data) VARIABLES.vaeMetadata = vaeInfo.data;
+      }
+      if (data?.data) {
+        UI.modelUrl.href = data.modelUrl;
+        UI.modelUrl.innerHTML = data.modelUrl;
+        UI.resourceUrl.href = data.resourceUrl;
+        UI.resourceUrl.innerHTML = data.resourceUrl;
+        formatAndColorizeJSON(data.data, UI.onlineLookupData);
+      }
+      if (data?.data || VARIABLES.basemodelMetadata || VARIABLES.vaeMetadata) setCustomMetadata();
+      if(UI.primaryLookup.value) updateSummary(VARIABLES.fileMetadata);
+      hideLoading();
+    }
+
+    async function getModelDataByHash(hash){
+      let data;
+      switch (UI.primaryLookup.value) {
+        case 'civ':
+          data = await getCivitAiData(hash);
+          break;
+        case 'aec':
+          data = await getArcEnCielData(hash);
+          break;
+      }
+      if(!data?.data && UI.secondaryLookup.value && UI.primaryLookup.value !== UI.secondaryLookup.value){ 
+        switch (UI.secondaryLookup.value) {
+          case 'civ':
+            data = await getCivitAiData(hash);
+            break;
+          case 'aec':
+            data = await getArcEnCielData(hash);
+            break;
+        }
+      }
+      return data;
     }
 
     const tagTools = {
@@ -1130,20 +1475,20 @@
 
     function updateTagFrequency(data, suggestedPrompt=false){
       try {  
-        if((!enableTagFrequency.checked && !enableSuggestedPrompt.checked) || (!data?.['ss_tag_frequency'] && !customMetadata.tags)) return;
+        if((!UI.enableTagFrequency.checked && !UI.enableSuggestedPrompt.checked) || (!data?.['ss_tag_frequency'] && !VARIABLES.customMetadata.tags)) return;
         if(data?.['ss_tag_frequency']){
           const tags = tagTools.convertNumericKeysToString(data['ss_tag_frequency']);
-          customMetadata.tags = tagTools.aggregateAndSort(tags);
-          customMetadata.tagsByFolder = tagTools.sortSubproperties(tags);
+          VARIABLES.customMetadata.tags = tagTools.aggregateAndSort(tags);
+          VARIABLES.customMetadata.tagsByFolder = tagTools.sortSubproperties(tags);
         }
-        const filterMethod = !suggestedPrompt ? tagFrequencyFilterMethod : suggestedPromptFilterMethod;
-        const filter = !suggestedPrompt ? tagFrequencyFilter : suggestedPromptFilter;
-        const excludeFilterMethod = !suggestedPrompt ? tagExcludeFilterMethod : suggestedPromptExcludeFilterMethod;
-        const excludeFilter = !suggestedPrompt ? tagExcludeFilter : suggestedPromptExcludeFilter;
-        const filterVld = !suggestedPrompt ? tagFrequencyFilterVld : suggestedPromptFilterVld;
-        const excludeFilterVld = !suggestedPrompt ? tagExcludeFilterVld : suggestedPromptExcludeFilterVld;
-        const tagCount = !suggestedPrompt ? tagFrequencyCount : suggestedPromptCount;
-        const byFolder = !suggestedPrompt ? tagByFolder : suggestedPromptByFolder;
+        const filterMethod = !suggestedPrompt ? UI.tagFrequencyFilterMethod : UI.suggestedPromptFilterMethod;
+        const filter = !suggestedPrompt ? UI.tagFrequencyFilter : UI.suggestedPromptFilter;
+        const excludeFilterMethod = !suggestedPrompt ? UI.tagExcludeFilterMethod : UI.suggestedPromptExcludeFilterMethod;
+        const excludeFilter = !suggestedPrompt ? UI.tagExcludeFilter : UI.suggestedPromptExcludeFilter;
+        const filterVld = !suggestedPrompt ? UI.tagFrequencyFilterVld : UI.suggestedPromptFilterVld;
+        const excludeFilterVld = !suggestedPrompt ? UI.tagExcludeFilterVld : UI.suggestedPromptExcludeFilterVld;
+        const tagCount = !suggestedPrompt ? UI.tagFrequencyCount : UI.suggestedPromptCount;
+        const byFolder = !suggestedPrompt ? UI.tagByFolder : UI.suggestedPromptByFolder;
         let filteredResult;
         let includeRegex;
         switch (filterMethod.value) {
@@ -1162,24 +1507,24 @@
         if(!tagTools.isValidRegex(includeRegex)) includeRegex = '';
         if(!tagTools.isValidRegex(excludeRegex)) excludeRegex = '';
         if(byFolder.checked) {
-          filteredResult = JSON.parse(JSON.stringify(customMetadata.tagsByFolder));
+          filteredResult = JSON.parse(JSON.stringify(VARIABLES.customMetadata.tagsByFolder));
           if(includeRegex) filteredResult = tagTools.applyFiltersToSubproperties(filteredResult, tagTools.filterByTag, includeRegex);
           if(excludeRegex) filteredResult = tagTools.applyFiltersToSubproperties(filteredResult, tagTools.removeTags, excludeRegex);
           if(tagCount.value && parseInt(tagCount.value)>0) filteredResult = tagTools.applyFiltersToSubproperties(filteredResult, tagTools.filterTopN, tagCount.value);
         }else{
-          filteredResult = JSON.parse(JSON.stringify(customMetadata.tags));
+          filteredResult = JSON.parse(JSON.stringify(VARIABLES.customMetadata.tags));
           if(includeRegex) filteredResult = tagTools.filterByTag(filteredResult, includeRegex);
           if(excludeRegex) filteredResult = tagTools.removeTags(filteredResult, excludeRegex);
           if(tagCount.value && parseInt(tagCount.value)>0) filteredResult = tagTools.filterTopN(filteredResult, tagCount.value);
         }
-        if(!suggestedPrompt) formatAndColorizeJSON(filteredResult, keywordDetails);
+        if(!suggestedPrompt) formatAndColorizeJSON(filteredResult, UI.keywordDetails);
         else {
           let prompt = tagTools.getSuggestedPrompt(filteredResult);
           if(!byFolder.checked) prompt = [prompt.Prompt];
-          renderSuggestedPrompt(prompt, suggestedPromptDetails);
-          customMetadata.suggested_prompt = prompt;
-          const spContainer = document.getElementById('dashboardSuggestedPrompt');
-          if(spContainer && customMetadata.suggested_prompt) renderSuggestedPrompt(customMetadata.suggested_prompt, spContainer);
+          renderSuggestedPrompt(prompt, UI.suggestedPromptDetails);
+          VARIABLES.customMetadata.suggested_prompt = prompt;
+          const spContainer = $('dashboardSuggestedPrompt');
+          if(spContainer && VARIABLES.customMetadata.suggested_prompt) renderSuggestedPrompt(VARIABLES.customMetadata.suggested_prompt, spContainer);
         }
       } catch (error) { console.error(error); }
     }
@@ -1205,9 +1550,46 @@
         targetElem.appendChild(table);
     }
 
-    //Toggle UI between dark and light modes
-    function toggleDarkMode(){
-      document.body.classList.toggle('dark-theme');
+    function updateTheme() {
+      const _getColorCss = (selectElem, colorPickerElem, cssVar) => {
+        colorPickerElem.style.setProperty('display','none');
+        if(selectElem.value && selectElem.value === 'custom-theme') { 
+          colorPickerElem.style.removeProperty('display');
+          return `--${cssVar}: ${colorPickerElem.value};`;
+        } 
+        else if(selectElem.value) return `--${cssVar}: ${selectElem.value};`;
+        return '';
+      };
+
+      document.body.className = UI.themeSelect.value === 'default'
+        ? (window.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark-theme' : 'light-theme')
+        : UI.themeSelect.value;
+      let css = '';
+
+      UI.themeColorPicker.style.setProperty('display','none');
+      if(UI.themeColorSelect.value && UI.themeColorSelect.value === 'default') { 
+        document.body.classList.add('default-' + document.body.className);
+      } else if(UI.themeColorSelect.value && UI.themeColorSelect.value === 'custom-theme') { 
+        UI.themeColorPicker.style.removeProperty('display');
+        css += `--primary: ${UI.themeColorPicker.value};`;
+      } 
+      else document.body.classList.add(UI.themeColorSelect.value);
+
+      if(UI.themeFont.value ) css += `--font: ${UI.themeFont.value};`;
+
+      css += _getColorCss(UI.themeBgColorSelect, UI.themeBgColorPicker, 'bg');
+      css += _getColorCss(UI.themeInputColorSelect, UI.themeInputColorPicker, 'inputbg');
+      css += _getColorCss(UI.themeFontColorSelect, UI.themeFontColorPicker, 'text');
+
+      const styleId = "custom-theme-id";
+      let style = document.getElementById(styleId);
+      if (!style) {
+        style = document.createElement("style");
+        style.id = styleId;
+        document.head.appendChild(style);
+      }
+      style.innerHTML = `.custom-theme { ${css} }`;
+      if(css) document.body.classList.add('custom-theme');
     }
 
     // Format a JSON object into colorized HTML
@@ -1276,6 +1658,33 @@
         setTimeout(() => { tooltip.remove(); }, timeout);
     }
 
+    function showToast(message, timeout = null, type = 'info') {
+      const container = $('toast-container');
+
+      const toast = document.createElement('div');
+      toast.classList.add('toast', type);
+
+      const messageText = document.createElement('span');
+      messageText.innerHTML = message;
+      toast.appendChild(messageText);
+
+      const closeBtn = document.createElement('button');
+      closeBtn.classList.add('close-btn');
+      closeBtn.innerHTML = '&times;';
+      closeBtn.onclick = () => container.removeChild(toast);
+      toast.appendChild(closeBtn);
+
+      container.appendChild(toast);
+
+      if (timeout && typeof timeout === 'number') {
+        setTimeout(() => {
+          if (toast.parentElement) {
+            container.removeChild(toast);
+          }
+        }, timeout);
+      }
+    }
+
     function createCopyableTextElem(string) {
       const elem = document.createElement('span');
       elem.textContent = string;
@@ -1292,27 +1701,27 @@
 
     function renderSummary(summaryJson){
       //Render JSON
-      formatAndColorizeJSON(summaryJson, summary); //Render JSON Summary
+      formatAndColorizeJSON(summaryJson, UI.summary); //Render JSON Summary
       //Render Table 
       const rows = Object.entries(summaryJson).map(([key, value]) => {
         const dataType = value === null || value === undefined || value === "undefined" ? "null" : typeof value;
         const formattedValue = dataType === 'object' ? `<pre>${colorizeJSON(value)}</pre>` : colorizeJSON(value, true);
         return `<tr><td>${key}</td><td>${formattedValue}</td></tr>`;
       });
-      summaryTable.innerHTML = `<table>${rows.join('')}</table>`;
+      UI.summaryTable.innerHTML = `<table>${rows.join('')}</table>`;
       //Render Grid
       const grid = Object.entries(summaryJson).map(([key, value]) => {
-        return replacePlaceholders(summaryGridTemplate.innerHTML, { key, value });
+        return replacePlaceholders(UI.summaryGridTemplate.innerHTML, { key, value });
       }).join('');
-      summaryGrid.innerHTML = `<div class="summary-grid">${grid}</div>`
+      UI.summaryGrid.innerHTML = `<div class="summary-grid">${grid}</div>`
       //Render Custom
-      summaryCustom.innerHTML = replacePlaceholders(customTemplate.value, null, true, "<span class='null'>-</span>");
+      UI.summaryCustom.innerHTML = replacePlaceholders(UI.customTemplate.value, null, true, "<span class='null'>-</span>");
     }
 
     function addListItem(listId, itemTemplateId, data=null) {
-      const template = document.getElementById(itemTemplateId).innerHTML;
+      const template = $(itemTemplateId).innerHTML;
       const html = data===null ? template.replace(/\{\{.*?\}\}/g, '') : replacePlaceholders(template, data, false);
-      document.getElementById(listId).insertAdjacentHTML('beforeend', html);
+      $(listId).insertAdjacentHTML('beforeend', html);
     }
 
     function removeListItem(button) {
@@ -1325,12 +1734,12 @@
     }
 
     function updateEditorFields() {
-      if(editorFormat.value!=='simple') return;
-      const container = metadataEditorSimple; 
+      if(UI.editorFormat.value!=='simple') return;
+      const container = UI.metadataEditorSimple; 
       container.innerHTML = '';
-      if(!editorFields.value || !metadataEditor.value) return;
-      const fieldNames = editorFields.value.split(',').map(field => field.trim());
-      let metadata = JSON.parse(metadataEditor.value) || {};
+      if(!UI.editorFields.value || !UI.metadataEditor.value) return;
+      const fieldNames = UI.editorFields.value.split(',').map(field => field.trim());
+      let metadata = JSON.parse(UI.metadataEditor.value) || {};
       let htmlContent = '';
       const idPrefix = 'editor_';
       fieldNames.forEach(fieldName => {
@@ -1342,20 +1751,40 @@
       });
       container.innerHTML = htmlContent;
       fieldNames.forEach(fieldName => {
-          document.getElementById(idPrefix+fieldName).addEventListener('change', function(event) {
-            let metadata = JSON.parse(metadataEditor.value) || {};
+          $(idPrefix+fieldName).addEventListener('change', function(event) {
+            let metadata = JSON.parse(UI.metadataEditor.value) || {};
             metadata[fieldName] = event.target.value;
-            metadataEditor.value = JSON.stringify(metadata, null, 2);
+            UI.metadataEditor.value = JSON.stringify(metadata, null, 2);
           });
       });
     }
 
+    async function checkForUpdates() {
+      const normalizeVersion = (v) => { return v.replace(/^v/, '').split('.').map(Number).concat([0, 0, 0]).slice(0, 3); };
+
+      const compareVersions = (a, b) => {
+        const [a1, a2, a3] = normalizeVersion(a);
+        const [b1, b2, b3] = normalizeVersion(b);
+        if (a1 !== b1) return a1 - b1;
+        if (a2 !== b2) return a2 - b2;
+        return a3 - b3;
+      }
+
+      const response = await fetch('https://api.github.com/repos/Xypher7/lora-metadata-viewer/tags');
+      const tags = await response.json();
+      const versions = tags.map(tag => tag.name).sort((a, b) => compareVersions(b, a));
+      const isLatest = compareVersions(UI.appVersion.innerHTML, versions[0]) >= 0;
+      const latest = versions[0];
+      if(!isLatest) showToast(`New version available: <a href="https://github.com/Xypher7/lora-metadata-viewer" target='_blank'>${latest}</a>`, null, 'none');
+    }
+
+    function $(id) { return document.getElementById(id); }
     //#endregion UI Rendering
     //#region UI Actions
     function copyToClipboard(elementId, event) {
-      const textToCopy = document.getElementById(elementId);
+      const textToCopy = $(elementId);
       const textarea = document.createElement('textarea');
-      textarea.value = textToCopy.textContent;
+      textarea.value = textToCopy.innerText;
       document.body.appendChild(textarea);
       textarea.select();
       document.execCommand('copy');
@@ -1363,61 +1792,80 @@
       showTooltip('Copied!', event);
     }
 
-    function downloadFile(purge) {
-      editorNotificationPanel.innerHTML = '';
+    async function downloadFile(purge) {
+      UI.editorNotificationPanel.innerHTML = '';
       let newMetadata;
       try {
-        newMetadata = metadataEditor.value && !purge ? JSON.parse(metadataEditor.value) : {};
+        newMetadata = UI.metadataEditor.value && !purge ? JSON.parse(UI.metadataEditor.value) : {};
         const validateJsonString = (obj, name) => {
           try{
             obj && typeof obj === 'string' && JSON.parse(obj);
           }catch(e){
-            editorNotificationPanel.innerHTML = `Error parsing edited metadata field '${name}'. Ensure the field value is a valid JSON string and try again.`;
+            showToast(`Error parsing edited metadata field '${name}'. Ensure the field value is a valid JSON string and try again.`, null, 'error');
             throw e;
           }     
         };
         !purge && ['ss_dataset_dirs', 'ss_bucket_info', 'ss_tag_frequency'].forEach((f) => { validateJsonString(newMetadata[f], f); });
       } catch (e) {
-        editorNotificationPanel.innerHTML = editorNotificationPanel.innerHTML || "Error parsing edited metadata. Ensure the metadata is in valid JSON format and try again.";
+        showToast('Error parsing edited metadata. Ensure the metadata is in valid JSON format and try again.', null, 'error');
         return;
       }
-
       try{
-        const reader = new FileReader();
-  
-        reader.onload = ({ target: { result } }) => {
-          const metadataSize = new DataView(result).getUint32(0, true);
-          const header = JSON.parse(new TextDecoder().decode(result.slice(8, 8 + metadataSize)));
-          // Update metadata
-          header['__metadata__'] = newMetadata;
-          const newHeaderBytes = new TextEncoder().encode(JSON.stringify(header));
-          // Create new ArrayBuffer only once
-          const newFileArrayBuffer = new Uint8Array(newHeaderBytes.length + result.byteLength - metadataSize);
-          new DataView(newFileArrayBuffer.buffer).setUint32(0, newHeaderBytes.length, true);
-          newFileArrayBuffer.set(newHeaderBytes, 8);
-          newFileArrayBuffer.set(new Uint8Array(result, 8 + metadataSize), 8 + newHeaderBytes.length);
-          // Create and download Blob
-          const blob = new Blob([newFileArrayBuffer], { type: "application/octet-stream" });
-          const url = URL.createObjectURL(blob);
-          const downloadLink = document.createElement("a");
-          downloadLink.href = url;
-          downloadLink.download = safetensorsFile.name.replace(/(\.[^.]+)$/, `_${purge ? "purged" : "edited"}$1`);
-          downloadLink.click();
-          URL.revokeObjectURL(url);
-          alert(`Metadata ${purge ? "purged" : "updated"} successfully!`);
-        };
-
-        reader.readAsArrayBuffer(safetensorsFile);
+        const METADATA_SIZE_OFFSET = 0;
+        const METADATA_CONTENT_OFFSET = 8;
+        const PADDING_BYTES = new Uint8Array([0, 0, 0, 0]); // Four NUL bytes for padding
+        // Step 1: Read the initial 8 bytes to get the metadata size
+        const metadataSizeBlob = VARIABLES.safetensorsFile.slice(METADATA_SIZE_OFFSET, METADATA_CONTENT_OFFSET);
+        const metadataSizeArrayBuffer = await metadataSizeBlob.arrayBuffer();
+        const metadataSize = new DataView(metadataSizeArrayBuffer).getUint32(0, true);
+        // Step 2: Read the current metadata based on the retrieved size
+        const metadataBlob = VARIABLES.safetensorsFile.slice(METADATA_CONTENT_OFFSET, METADATA_CONTENT_OFFSET + metadataSize);
+        const metadataArrayBuffer = await metadataBlob.arrayBuffer();
+        const currentMetadata = JSON.parse(new TextDecoder().decode(metadataArrayBuffer));
+        // Update metadata
+        currentMetadata['__metadata__'] = newMetadata;
+        const newMetadataBytes = new TextEncoder().encode(JSON.stringify(currentMetadata));
+        // Step 3: Ensure new metadata size and add padding
+        const newMetadataSizeArray = new Uint32Array([newMetadataBytes.length]);
+        // Step 4: Construct the new Blob with updated metadata and padding
+        const headerBlob = new Blob([newMetadataSizeArray.buffer, PADDING_BYTES, newMetadataBytes]);
+        const remainingFileBlob = VARIABLES.safetensorsFile.slice(METADATA_CONTENT_OFFSET + metadataSize); // Slice remaining file data
+        // Concatenate updated header with remaining file content
+        const newFileBlob = new Blob([headerBlob, remainingFileBlob], { type: "application/octet-stream" });
+        // Step 5: Trigger download of updated file
+        const url = URL.createObjectURL(newFileBlob);
+        const downloadLink = document.createElement("a");
+        downloadLink.href = url;
+        downloadLink.download = VARIABLES.safetensorsFile.name.replace(/(\.[^.]+)$/, `_${purge ? "purged" : "edited"}$1`);
+        downloadLink.click();
+        URL.revokeObjectURL(url);
+        showToast(`Metadata ${purge ? "purged" : "updated"} successfully!`, null, 'success');
       } catch (error) {
-        editorNotificationPanel.innerHTML = "An error occured while updating the file.";
+        showToast(`An error occured while updating the file:<br>${error}`, null, 'error');
         console.error(error);
       }
+    }
+
+    function updateProxyScript() {
+      const path = decodeURIComponent(window.location.pathname);
+      const file = path.substring(path.lastIndexOf('/') + 1);
+      if(file) UI.proxyScript.innerText = UI.proxyScript.innerText.replace('index.html', file);
+    }
+
+    function downloadProxyScript() {
+      const blob = new Blob([UI.proxyScript.innerText], { type: 'text/x-python' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'proxy.py';
+      a.click();
+      URL.revokeObjectURL(url);
     }
     //#endregion UI Events
     //#region Lora/Safetensors Utilities
     function setCustomMetadata(){
       try {
-          const objArray = JSON.parse(customFields.value);
+          const objArray = JSON.parse(UI.customFields.value);
           if (Array.isArray(objArray) && objArray.length > 0) {
               const evaluatedObj = objArray.reduce((acc, obj) => {
                   if (typeof obj === 'object' && 'label' in obj && 'calc' in obj && typeof obj.calc === 'string') {
@@ -1427,10 +1875,10 @@
                       catch(e) {
                         if(obj.showError){
                           console.warn(`Error evaluating expression for custom field "${obj.label}".`, obj, e);
-                          notificationPanel.innerHTML += `Error evaluating expression for custom field "${obj.label}".<br>`;
+                          showToast(`Error evaluating expression for custom field "${obj.label}":<br>${error}`, null, 'error');
                         }
                       }
-                      customMetadata[obj.label] = acc[obj.label];
+                      VARIABLES.customMetadata[obj.label] = acc[obj.label];
                   } else {
                       console.error('Invalid object format or missing fields:', obj);
                   }
@@ -1452,90 +1900,147 @@
     }
 
     function fetchMetadataValue(field) {
-      if(field.startsWith('civitai.') && civitaiMetadata && field.substring(8) in civitaiMetadata)
-        return civitaiMetadata[field.substring(8)];
-      else if(field.startsWith('custom.') && customMetadata && field.substring(7) in customMetadata)
-        return customMetadata[field.substring(7)];
-      else if(field in fileMetadata)
-        return fileMetadata[field];
-      else if(showUndefinedSummaryValues.checked)
+      if(field.startsWith('civitai.') && VARIABLES.civitaiMetadata && field.substring(8) in VARIABLES.civitaiMetadata)
+        return VARIABLES.civitaiMetadata[field.substring(8)];
+      else if(field.startsWith('arcenciel.') && VARIABLES.arcencielMetadata && field.substring(10) in VARIABLES.arcencielMetadata)
+        return VARIABLES.arcencielMetadata[field.substring(10)];
+      else if(field.startsWith('custom.') && VARIABLES.customMetadata && field.substring(7) in VARIABLES.customMetadata)
+        return VARIABLES.customMetadata[field.substring(7)];
+      else if(field in VARIABLES.fileMetadata)
+        return VARIABLES.fileMetadata[field];
+      else if(UI.showUndefinedSummaryValues.checked)
         return "undefined";
       else 
         return undefined;
     }
 
-    async function getCivitAiData(file, hash = null) {
-      let baseApiUrl = 'https://civitai.com/api/v1/model-versions/by-hash/';
-      let modelApiUrl = `https://civitai.com/api/v1/models/`;
-      const baseModelUrl = 'https://civitai.com/models/';
-      const versionParam = '?modelVersionId=';
-      let finalHash = hash;
-      let hashType;
+    async function setCivitAIData() {
+      let data = await getCivitAiData(VARIABLES.customMetadata.autov2);
+      if (!data?.data) data = await getCivitAiData(VARIABLES.customMetadata.autov3);
+      if(data?.hash) VARIABLES.customMetadata.lora_hash = data.hash;
+      if (data?.data) { 
+        const url = data.data?.images?.[0].url;
+        const isVideo = /\.(mp4|webm)$/i.test(url); 
+        UI.previewImage.innerHTML = isVideo ? `<video src='${url}' controls loop></video>` : `<img src='${url}'>`;
+        VARIABLES.civitaiMetadata = data.data;
+        showToast('Matching resource found in CivitAI', 8000, 'success');
+      } else { showToast('No matching resource found in CivitAI', 8000, 'warning'); }
+      return data;
+    }
+
+    async function getCivitAiData(hash) {    
+      const baseApiUrl = "https://civitai.com/api/v1/model-versions/by-hash/";
+      const modelApiUrl = "https://civitai.com/api/v1/models/";
+      const baseModelUrl = "https://civitai.com/models/";
+      const versionParam = "?modelVersionId=";
+      try {      
+          if(!hash) return null;
+          let data = await onlineLookup(baseApiUrl + hash);
+          if (!data || !data.modelId) return null;
+          data.model = await onlineLookup(modelApiUrl + data.modelId);
+          if (!data.model) return null;
+          return { data, hash, modelUrl: baseModelUrl + data.modelId + versionParam + data.id, resourceUrl: baseApiUrl + hash, source: "CivitAI" };
+      } catch (error) {
+          if (error instanceof TypeError) showToast('CivitAI lookup failed, possibly due to a CORS restriction or network error...', null, 'error');
+          console.error("Error fetching CivitAI data:", error);
+          return null;
+      } 
+    }
+
+    async function setArcEnCielData() {
+        let data = await getArcEnCielData(VARIABLES.customMetadata.sha256);
+        if (!data?.data) data = await getArcEnCielData(VARIABLES.customMetadata.sha256_autov3);
+        if (data?.data) { 
+          const versions = data.data?.versions ?? [];
+          let versionIndex = 0;
+          if (versions.length > 1) {
+            const matchIdx = versions.findIndex(version => version?.sha256 === VARIABLES.customMetadata.sha256 || version?.sha256webui === VARIABLES.customMetadata.sha256_autov3);
+            if (matchIdx !== -1) versionIndex = matchIdx;
+          }
+          const selectedVersion = versions[versionIndex];
+          let mediaType = selectedVersion?.images?.length ? 'images' : (selectedVersion?.videos?.length ? 'videos' : undefined);
+          if (mediaType) {
+            const filePath = selectedVersion?.[mediaType]?.[0]?.filePath;
+            if (filePath) {
+              const url = 'https://arcenciel.io/uploads/' + filePath;
+              UI.previewImage.innerHTML = mediaType === 'images' ? `<img src='${url}'>` : `<video src='${url}' controls loop></video>`;
+            }
+          }
+          VARIABLES.arcencielMetadata = data.data;
+          showToast('Matching resource found in Arc En Ciel', 8000, 'success');
+        } else { showToast('No matching resource found in Arc En Ciel', 8000, 'warning'); }
+        return data;
+    }
+
+    async function getArcEnCielData(hash) {       
+        const baseApiUrl = "https://arcenciel.io/api/models/search?search=";
+        const baseModelUrl = "https://arcenciel.io/models/";
+        try {
+            if(!hash) return null;
+            let data = await onlineLookup(baseApiUrl + hash, true);
+            if (!data?.data?.[0]) return null; 
+            return { data: data.data[0], hash, hashType: "SHA256", modelUrl: baseModelUrl + data.data[0].id, resourceUrl: baseApiUrl + hash, source: "Arc En Ciel" };
+        } catch (error) {
+            if (error instanceof TypeError) showToast('Arc En Ciel lookup failed, possibly due to a CORS restriction or network error. Make sure the HTTP proxy is enabled in the "Online Lookup" settings tab and a valid proxy URL is specified.', null, 'error');
+            console.error("Error fetching Arc En Ciel data:", error);
+            return null;
+        } 
+    }
+
+    async function calculateFileHashes(file) {
       let autov2;
       let autov3;
-      showLoading('Processing...');
+      let sha256;
+      let sha256_autov3;
+      showLoading('Processing...', true);
       if(file){
         try{
           const TWO_GB = 2 * 1024 * 1024 * 1024;
-          updateLoading('Calculating AutoV2 hash...');
           if (file.size > TWO_GB) {
-            
-            autov2 = await calculateHashInChunks(file);
-            autov2 = autov2.substring(0,10);
+            try{
+              updateLoading('Calculating AutoV3 hash...');
+              sha256_autov3 = await calculateAutoV3HashInChunks(file);
+            } catch(error) {
+              updateLoading('Calculating AutoV2 hash...');
+              sha256 = await calculateHashInChunks(file);
+            }
           }
           else {
-            autov2 = await calculateFileHash(file);
-            autov2 = autov2.substring(0,10);
+            updateLoading('Calculating AutoV2 hash...', 25);
+            sha256 = await calculateFileHash(file);
             updateLoading('Calculating AutoV3 hash...', 50);
-            autov3 = await calculateAutoV3Hash(file);
-            autov3 = autov3.substring(0,12);
+            sha256_autov3 = await calculateAutoV3Hash(file);
+          }
+          if(sha256) {
+            autov2 = sha256.substring(0,10);
+            VARIABLES.customMetadata.sha256 = sha256;
+            VARIABLES.customMetadata.autov2 = autov2;
+          }
+          if(sha256_autov3) {
+            autov3 = sha256_autov3.substring(0,12);
+            VARIABLES.customMetadata.sha256_autov3 = sha256_autov3;
+            VARIABLES.customMetadata.autov3 = autov3;
           }
         } catch(error){
           if (error.message === 'Unable to read the file.') 
-            notificationPanel.innerHTML = (Object.keys(fileMetadata).length ? 'Metadata was found, but t':'T' ) + 'here was a problem calculating the hash. The file size may be too large.';
+            showToast((Object.keys(VARIABLES.fileMetadata).length ? 'Metadata was found, but t':'T' ) + 'here was a problem calculating the hash. The file size may be too large.', null, 'error');
         }
       }
-      updateLoading('CivitAI lookup...', 75);
-      const fetchWithHash = async (url) => {
-        try {
-          const response = await fetch(url);
-          if (!response.ok) return null;
-          return response.json();
-        } catch (error) {
-          if (error instanceof TypeError) notificationPanel.innerHTML = "CivitAI lookup failed, possibly due to a CORS restriction or network error...";
-          else console.log('There was a problem:', error);
-        }
-      };
+      return { sha256, autov2, autov3 };
+    }
 
-      const fetchWithFallback = async () => {
-        let data = hash ? await fetchWithHash(baseApiUrl + hash) : null;
-        if (!data && autov2) {
-          data = await fetchWithHash(baseApiUrl + autov2);
-          if(data){
-            finalHash = autov2;
-            hashType = 'AutoV2';
-          }
+    async function onlineLookup(url, useProxy = false) {
+        if (enableProxy.checked && useProxy) {
+            const proxyAvailable = await isProxyAvailable(UI.proxyUrl.value);
+            if (proxyAvailable) url = UI.proxyUrl.value + url;
+            else {
+                showToast('Proxy server is not available.', null, 'error');
+                return null;
+            }
         }
-        if (!data && autov3) {
-          data = await fetchWithHash(baseApiUrl + autov3);
-          if(data){
-            finalHash = autov3;
-            hashType = 'AutoV3';
-          }
-        }
-        if(data) data.model = await fetchWithHash(modelApiUrl + data.modelId);
-        return data;
-      };
-
-      return fetchWithFallback()
-        .then(data => {
-          if (data) return { data:data, hash:finalHash, hashType:hashType, autov2:autov2, autov3:autov3, modelUrl:baseModelUrl + data.modelId + versionParam + data.id, resourceUrl:baseApiUrl + finalHash };
-          return { hash:finalHash, hashType:hashType, autov2:autov2, autov3:autov3 };
-        })
-        .catch(error => {
-          console.error('There was a problem:', error);
-        })
-        .finally(()=>{hideLoading();});
+        const response = await fetch(url);
+        if (!response.ok) return null;
+        return response.json();
     }
     //#endregion Lora/Safetensors Utilities
     //#region Encryption Utilities
@@ -1591,6 +2096,43 @@
         });
     }
 
+    async function calculateAutoV3HashInChunks(file) {
+        const chunkSize = 16 * 1024 * 1024;  // 16 MB chunk size
+        const metadataSizeBlob = file.slice(0, 8);  // Read first 8 bytes to get metadata size
+        const metadataSizeArrayBuffer = await metadataSizeBlob.arrayBuffer();
+        const dataView = new DataView(metadataSizeArrayBuffer);
+        const metadataSize = dataView.getUint32(0, true);
+        const offset = metadataSize + 8;  // Offset to skip metadata
+
+        const totalChunks = Math.ceil((file.size - offset) / chunkSize);
+        const sha256 = await hashwasm.createSHA256();
+        let chunksProcessed = 0;
+
+        // Process each chunk, starting after the metadata
+        for (let i = 0; i < totalChunks; i++) {
+            if (VARIABLES.abortController.signal.aborted) {
+                console.log('Hash calculation cancelled');
+                return null;  // Exit early if aborted
+            }
+            const start = offset + i * chunkSize;
+            const end = Math.min(start + chunkSize, file.size);
+            const chunk = file.slice(start, end);
+            const chunkArrayBuffer = await chunk.arrayBuffer();
+
+            // Update the hash with the current chunk data
+            sha256.update(new Uint8Array(chunkArrayBuffer));
+
+            // Update progress
+            chunksProcessed++;
+            const progress = Math.round((chunksProcessed / totalChunks) * 100);
+            updateProgress(progress);
+        }
+
+        // Finalize and get the hash as a hex string
+        const finalHashHex = sha256.digest('hex');
+        return finalHashHex;  // Return the final hash as a hex string
+    }
+
     async function calculateHashInChunks(file) {
         const chunkSize = 16 * 1024 * 1024;  // 16 MB chunk size
         const totalChunks = Math.ceil(file.size / chunkSize);
@@ -1599,6 +2141,10 @@
         let chunksProcessed = 0;
         // Read and process each chunk
         for (let i = 0; i < totalChunks; i++) {
+            if (VARIABLES.abortController.signal.aborted) {
+                console.log('Hash calculation cancelled');
+                return null;  // Exit early if aborted
+            }
             const chunk = file.slice(i * chunkSize, (i + 1) * chunkSize);
             const chunkArrayBuffer = await chunk.arrayBuffer();
             // Update the hash with the current chunk data
@@ -1613,6 +2159,16 @@
         return finalHashHex;  // Return the final hash as a hex string
     }
     //#endregion Encryption Utilities
+    //#region Proxy Utilities
+    async function isProxyAvailable(proxyUrl) {
+        try {
+            const response = await fetch(proxyUrl + 'https://www.civitai.com');
+            return response.ok;
+        } catch (error) {
+            return false;
+        }
+    }
+    //#endregion Proxy Utilities
   </script>
 </body>
 </html>

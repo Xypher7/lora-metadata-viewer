@@ -29,4 +29,4 @@ The tool is designed to be used offline and processing is entirely done on your 
         ```
 
 ## Screenshots
-![App Screenshot](https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/ed823c08-4551-40b4-badd-aab544d463dc/original=true,quality=90/Screenshot%202024-09-05%20235613.jpeg)
+![App Screenshot](https://image.civitai.com/xG1nkqKTMzGDvpLrqFT7WA/5c3b0f97-d7ff-4c7a-b9c5-d5f176544151/original=true,quality=90/Screenshot%202025-10-01%20195536.jpeg)
